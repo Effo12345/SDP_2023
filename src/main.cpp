@@ -7,6 +7,7 @@ int main()
     while (1) {
         LCD.Update();
         // Never end
+        //Testing
     }
     return 0;
 }
