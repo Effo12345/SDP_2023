@@ -1,50 +1,31 @@
-#include "point.cpp"
-
-/*
- * @author Ethan Rosati
- *
- * Base class that holds properties all on-screen objects must have
- * 
- * 
- * 
- */
-
-class Object {
-    Point pos;
-
-    bool isActive = true;
-    bool isDestroyed = false;
-
-    public:
-    virtual ~Object() {
-        // Nothing to do since members can clean up after themselves
-    }
+#include "include/object.hpp"
 
 
-    Point getPos() {
-        return pos;
-    }
-
-    void setPos(int x, int y) {
-        pos = {x, y};
-    }
-
-    void setPos(Point p) {
-        pos = p;
-    }
-
-    void destroy() {
-        isActive = false;
-        isDestroyed = false;
-    }
-
-    virtual void draw() {
-
-    }
-
-
-};
-
-int main() {
-
+Object::~Object() {
+    // Nothing to do since members can clean up after themselves
+    // but necessary for derived classes
 }
+
+// Returns the object's position
+Point Object::getPos() {
+    return pos;
+}
+
+// Sets objects position. Overloaded
+void Object::setPos(int x, int y) {
+    pos = {x, y};
+}
+
+// Another way of set the object's position. Overloaded
+void Object::setPos(Point p) {
+    pos = p;
+}
+
+// Mark the object as having been destroyed
+void Object::destroy() {
+    isActive = false;
+    isDestroyed = true;
+}
+
+// Let derived classes override this for draw calls in the render queue
+void Object::draw() {}
