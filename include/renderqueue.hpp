@@ -31,6 +31,8 @@ class RenderQueue {
 
     RenderQueue(std::vector<std::shared_ptr<Object>> baseObjects)
     : objects(baseObjects) {}
+
+    RenderQueue() {}
     
     ~RenderQueue() {
         for(auto p : objects) {
@@ -46,7 +48,7 @@ class RenderQueue {
             // If the object is inactive, don't render it to the screen
             if(!p->isActive())
                 continue;
-                
+
             p->draw();
         }
 
