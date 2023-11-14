@@ -6,6 +6,6 @@
  * Stores 2D point data
  */
 struct Point {
-    int x;
-    int y;
+    int x {};
+    int y {};
 };

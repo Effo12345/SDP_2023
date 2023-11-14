@@ -27,7 +27,7 @@ class RenderQueue {
     public:
 
     RenderQueue(std::vector<std::shared_ptr<Object>> baseObjects)
-    : objects{baseObjects} {}
+    : objects(baseObjects) {}
     
     ~RenderQueue() {
         for(auto p : objects) {
