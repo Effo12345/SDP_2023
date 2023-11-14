@@ -15,12 +15,15 @@ class RenderQueue {
     std::vector<std::shared_ptr<Object>> objects;
 
     void removeDestroyed() {
-        for(int i = 0; i < objects.size(); i++) {
+        for(int i = 0; i < objects.size();) {
             if(objects[i]->isDestroyed()) {
                 removeObject(i);
-                i--;
                 continue;
             }
+
+            // Only increment the iterator if the current object wasn't destroyed
+            // since erasing an object from the vector pushes all the indeces up
+            i++;
         }
     }
 
@@ -40,6 +43,10 @@ class RenderQueue {
         removeDestroyed();
 
         for(auto p : objects) {
+            // If the object is inactive, don't render it to the screen
+            if(!p->isActive())
+                continue;
+                
             p->draw();
         }
 
