@@ -3,6 +3,7 @@
 #include <vector>
 #include <memory>
 #include "object.hpp"
+#include "FEHLCD.h"
 
 /*
  * @author Ethan Rosati & Owen Chevalier
@@ -41,6 +42,8 @@ class RenderQueue {
         for(auto p : objects) {
             p->draw();
         }
+
+        LCD.Update();
     }
 
     void appendObject(std::shared_ptr<Object> obj) {

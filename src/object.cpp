@@ -23,8 +23,22 @@ void Object::setPos(Point p) {
 
 // Mark the object as having been destroyed
 void Object::destroy() {
-    isActive = false;
-    isDestroyed = true;
+    destroyed = true;
+}
+
+// Return the object's destroyed status
+bool Object::isDestroyed() {
+    return destroyed;
+}
+
+// Set whether the object is visible on screen
+void Object::setActive(bool status) {
+    active = status;
+}
+
+// Return whether or not object is visible
+bool Object::isActive() {
+    return active;
 }
 
 // Let derived classes override this for draw calls in the render queue
