@@ -7,7 +7,7 @@ Object::~Object() {
 }
 
 // Returns the object's position
-Point Object::getPos() {
+Point Object::getPos() const {
     return pos;
 }
 
@@ -27,7 +27,7 @@ void Object::destroy() {
 }
 
 // Return the object's destroyed status
-bool Object::isDestroyed() {
+bool Object::isDestroyed() const {
     return destroyed;
 }
 
@@ -37,7 +37,7 @@ void Object::setActive(bool status) {
 }
 
 // Return whether or not object is visible
-bool Object::isActive() {
+bool Object::isActive() const {
     return active;
 }
 

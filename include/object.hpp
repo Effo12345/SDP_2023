@@ -19,7 +19,7 @@ class Object {
     virtual ~Object();
 
     // Returns the object's position
-    Point getPos();
+    Point getPos() const;
     // Sets objects position. Overloaded
     void setPos(int x, int y);
     // Another way of set the object's position. Overloaded
@@ -27,10 +27,10 @@ class Object {
 
     // Mark the object as having been destroyed
     void destroy();
-    bool isDestroyed();
+    bool isDestroyed() const;
 
     void setActive(bool status = true);
-    bool isActive();
+    bool isActive() const;
 
     // Let derived classes override this for draw calls in the render queue
     virtual void draw();
