@@ -20,14 +20,6 @@ int main()
 
     int numIter;
     while (1) {
-
-        LCD.ClearBuffer();
-        if (LCD.Touch(&currentTouchPosX, &currentTouchPosY)) {
-
-            
-
-        }
-
         boat->moveTowards();
         render.draw();
 

@@ -54,7 +54,7 @@ public:
         setPos(gamePos + vel);
     }
 
-    void setTarget(Point& touchPos) { 
+    void setTarget(Point touchPos) { 
         targetPos = touchPos;
 
         Point delta = targetPos - gamePos;
