@@ -55,7 +55,7 @@ struct Point {
     }
 
     Point absVal() {
-        return {abs(x), abs(y)};
+        return {std::abs(x), std::abs(y)};
     }
 
     void transpose() {

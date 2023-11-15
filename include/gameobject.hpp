@@ -66,6 +66,12 @@ public:
         sprite->setPos(pos - (spriteDim / 2));
     }
 
+    Point getPos () {
+
+        return gamePos;
+
+    }
+
     std::shared_ptr<Sprite> getSprite() {
         return sprite;
     }
