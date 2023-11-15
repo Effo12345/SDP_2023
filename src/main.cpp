@@ -12,18 +12,23 @@ int main()
 
     Point touchPos;
 
-    std::shared_ptr<GameObject> boat = std::make_shared<GameObject>("images/BoatFEH.pic", Point(125, 32), Point(32, 35), 3);
+    std::shared_ptr<GameObject> boat = std::make_shared<GameObject>("images/BoatFEH.pic", Point(17, 111), Point(32, 35), 3);
     std::shared_ptr<Sprite> bkg = std::make_shared<Sprite>("images/SDP_BackgroundFEH.pic");
     RenderQueue render({bkg, boat->getSprite()});
 
-    boat->setTarget(Point(125, 100));
+    //boat->setTarget(Point(88, 12));
 
-    int numIter;
     while (1) {
-        boat->moveTowards();
-        render.draw();
+        if(LCD.Touch(&touchPos.x, &touchPos.y)) {
+            boat->setTarget(touchPos);
+        }
 
-        numIter++;
+        if(!boat->hasReachedTarget()) {
+            boat->moveTowards();
+        }
+
+        //boat->moveTowards();
+        render.draw();
         
         Sleep(100);
     }
