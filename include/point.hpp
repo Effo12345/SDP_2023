@@ -8,12 +8,12 @@
  * Stores 2D point data
  */
 struct Point {
-    int x {};
-    int y {};
+    float x {};
+    float y {};
 
     Point() {}
     
-    Point(int xInit, int yInit)
+    Point(int xInit, float yInit)
     : x(xInit), y(yInit) {}
 
     // Math operators
@@ -21,7 +21,7 @@ struct Point {
         return {x + p.x, y + p.y};
     }
 
-    Point operator+ (const int add) {
+    Point operator+ (const float add) {
         return {x + add, y + add};
     }
 
@@ -29,7 +29,7 @@ struct Point {
         return {x - p.x, y - p.y};
     }
 
-    Point operator-(const int subtract) {
+    Point operator-(const float subtract) {
         return {x - subtract, y - subtract};
     }
 
@@ -37,7 +37,7 @@ struct Point {
         return {x * p.x, y * p.y};
     }
 
-    Point operator*(const int mult) {
+    Point operator*(const float mult) {
         return {x * mult, y * mult};
     }
 
@@ -45,7 +45,7 @@ struct Point {
         return {x / p.x, y / p.y};
     }
 
-    Point operator/(const int div) {
+    Point operator/(const float div) {
         return {x / div, y / div};
     }
 
@@ -59,9 +59,20 @@ struct Point {
     }
 
     void transpose() {
-        int tmp = x;
+        float tmp = x;
         y = x;
         x = tmp;
+    }
+
+    void normalize() {
+        float len = getLength();
+
+        x /= len;
+        y /= len;
+    }
+
+    float getLength() {
+        return sqrt((x * x) + (y * y));
     }
 
 
@@ -70,7 +81,7 @@ struct Point {
         return x < p.x && y < p.y ? true : false;
     }
 
-    bool operator<(const int comp) {
+    bool operator<(const float comp) {
         return x < comp && y < comp ? true : false;
     }
 
@@ -78,11 +89,11 @@ struct Point {
         return x > p.x && y > p.y ? true : false;
     }
 
-    bool operator>(const int comp) {
+    bool operator>(const float comp) {
         return x > comp && y > comp ? true : false;
     }
 
-    bool operator==(const int comp) {
+    bool operator==(const float comp) {
         return x == comp && y == comp ? true : false;
     }
 

@@ -33,7 +33,7 @@ int main()
         //boat->moveTowards();
         render.draw();
         
-        Sleep(100);
+        Sleep(50);
     }
 
     return 0;

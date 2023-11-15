@@ -14,7 +14,7 @@ class GameObject {
     Point prevDeltaSgn;
     bool reachedTarget = false;
     
-    int speed;
+    float speed;
 
     template <typename T> int sgn(T val) {
         return (T(0) < val) - (val < T(0));
@@ -22,7 +22,7 @@ class GameObject {
 
 
 public:
-    GameObject(std::string spriteFile, Point posInit, Point spriteSize, int maxVelocity = 1)
+    GameObject(std::string spriteFile, Point posInit, Point spriteSize, float maxVelocity = 1)
     : sprite(std::make_shared<Sprite>(spriteFile, Point(posInit.x, posInit.y) - spriteSize)),
       speed(maxVelocity), spriteDim(spriteSize), gamePos({posInit.x, posInit.y}),
       targetPos(gamePos) {
@@ -36,12 +36,10 @@ public:
             return currPos;
         }
 
-        float xPct = (float)delta.x / (float)(delta.x + delta.y);
-        float yPct = (float)delta.y / (float)(delta.x + delta.y);
+        delta.normalize();
+        
 
-        Point vel = {std::round(xPct * speed * deltaSgn.x), std::round(yPct * speed * deltaSgn.y)};
-
-        return vel + currPos;
+        return (delta * speed) + currPos;
     }
 
     void moveTowards () {
@@ -81,10 +79,12 @@ public:
         Point nextDeltaSgn;
         Point futurePos = computeNewPos(nextPos, nextDelta, nextDeltaSgn, speed);
 
+        
         if(!(currDeltaSgn == nextDeltaSgn)) {
             setPos(targetPos);
             return;
         }
+        
 
         setPos(nextPos);
     }
@@ -103,15 +103,8 @@ public:
         sprite->setPos(pos - (spriteDim / 2));
     }
 
-<<<<<<< HEAD
-    Point getPos () {
-
-        return gamePos;
-
-=======
     Point getPos() {
         return gamePos;
->>>>>>> cbcd2153aabf37a4ff995ff433645e7a446732e8
     }
 
     std::shared_ptr<Sprite> getSprite() {

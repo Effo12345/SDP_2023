@@ -24,7 +24,7 @@ class Sprite : public RenderObject, public FEHImage {
     }
 
     void draw() {
-        Draw(renderPos.x, renderPos.y);
+        Draw(std::round(renderPos.x), std::round(renderPos.y));
     }
 
 };
