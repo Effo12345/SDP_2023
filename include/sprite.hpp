@@ -1,9 +1,9 @@
 #pragma once
 
-#include "object.hpp"
+#include "renderobject.hpp"
 #include "FEHImages.h"
 
-class Sprite : public Object, public FEHImage {
+class Sprite : public RenderObject, public FEHImage {
     public:
     Sprite(std::string file) {
         Open(file.c_str());
@@ -11,8 +11,8 @@ class Sprite : public Object, public FEHImage {
 
     Sprite(std::string file, int initX, int initY)
     : Sprite(file) {
-        pos.x = initX;
-        pos.y = initY;
+        renderPos.x = initX;
+        renderPos.y = initY;
     }
 
     Sprite(std::string file, Point initPos) 
@@ -24,7 +24,7 @@ class Sprite : public Object, public FEHImage {
     }
 
     void draw() {
-        Draw(pos.x, pos.y);
+        Draw(renderPos.x, renderPos.y);
     }
 
 };

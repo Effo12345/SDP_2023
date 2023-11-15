@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <memory>
-#include "object.hpp"
+#include "renderobject.hpp"
 #include "FEHLCD.h"
 
 /*
@@ -12,7 +12,7 @@
  */
 
 class RenderQueue {
-    std::vector<std::shared_ptr<Object>> objects;
+    std::vector<std::shared_ptr<RenderObject>> objects;
 
     void removeDestroyed() {
         for(int i = 0; i < objects.size();) {
@@ -29,7 +29,7 @@ class RenderQueue {
 
     public:
 
-    RenderQueue(std::vector<std::shared_ptr<Object>> baseObjects)
+    RenderQueue(std::vector<std::shared_ptr<RenderObject>> baseObjects)
     : objects(baseObjects) {}
 
     RenderQueue() {}
@@ -55,7 +55,7 @@ class RenderQueue {
         LCD.Update();
     }
 
-    void appendObject(std::shared_ptr<Object> obj) {
+    void appendObject(std::shared_ptr<RenderObject> obj) {
         objects.push_back(obj);
     }
 

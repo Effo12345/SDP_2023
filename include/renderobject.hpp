@@ -7,16 +7,16 @@
  *
  * Base class that holds properties all on-screen objects must have
  */
-class Object {
+class RenderObject {
     private:
     bool active = true;
     bool destroyed = false;
 
     protected:
-    Point pos;
+    Point renderPos;
 
     public:
-    virtual ~Object();
+    virtual ~RenderObject();
 
     // Returns the object's position
     Point getPos() const;

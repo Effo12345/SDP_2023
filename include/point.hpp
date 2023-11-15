@@ -81,4 +81,12 @@ struct Point {
     bool operator>(const int comp) {
         return x > comp && y > comp ? true : false;
     }
+
+    bool operator==(const int comp) {
+        return x == comp && y == comp ? true : false;
+    }
+
+    bool operator==(const Point& p) {
+        return x == p.x && y == p.y ? true : false;
+    }
 };
