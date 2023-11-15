@@ -58,6 +58,12 @@ struct Point {
         return {abs(x), abs(y)};
     }
 
+    void transpose() {
+        int tmp = x;
+        y = x;
+        x = tmp;
+    }
+
 
     // Comparison operators
     bool operator<(const Point& p) {
