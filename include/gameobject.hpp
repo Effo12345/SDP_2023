@@ -16,6 +16,7 @@ class GameObject {
     
     float speed;
 
+    // https://stackoverflow.com/questions/1903954/is-there-a-standard-sign-function-signum-sgn-in-c-c
     template <typename T> int sgn(T val) {
         return (T(0) < val) - (val < T(0));
     }
@@ -36,9 +37,9 @@ public:
             return currPos;
         }
 
+        //https://gamedev.stackexchange.com/questions/48119/how-do-i-calculate-how-an-object-will-move-from-one-point-to-another
         delta.normalize();
         
-
         return (delta * speed) + currPos;
     }
 
