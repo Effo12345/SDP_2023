@@ -62,5 +62,9 @@ class RenderQueue {
     void removeObject(int index) {
         objects.erase(objects.begin() + index);
     }
+
+    std::shared_ptr<RenderObject>& operator[](int index) {
+        return objects[index];
+    }
     
 };

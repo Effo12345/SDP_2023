@@ -5,12 +5,7 @@
 #include <iostream>
 
 class GameObject {
-    Point gamePos;
-    Point spriteDim;
-    std::shared_ptr<Sprite> sprite;
-
     Point targetPos;
-    float targetAngle;
     Point prevDeltaSgn;
     bool reachedTarget = false;
     
@@ -19,14 +14,6 @@ class GameObject {
     // https://stackoverflow.com/questions/1903954/is-there-a-standard-sign-function-signum-sgn-in-c-c
     template <typename T> int sgn(T val) {
         return (T(0) < val) - (val < T(0));
-    }
-
-
-public:
-    GameObject(std::string spriteFile, Point posInit, Point spriteSize, float maxVelocity = 1)
-    : sprite(std::make_shared<Sprite>(spriteFile, Point(posInit.x, posInit.y) - spriteSize)),
-      speed(maxVelocity), spriteDim(spriteSize), gamePos({posInit.x, posInit.y}),
-      targetPos(gamePos) {
     }
 
     Point computeNewPos(Point& currPos, Point& delta, Point& deltaSgn, int speed) {
@@ -43,35 +30,33 @@ public:
         return (delta * speed) + currPos;
     }
 
-    void moveTowards () {
+    void computeTargetAngle(Point delta) {
+        targetAngle = acos(delta.x / sqrt((pow(delta.x, 2) + pow(delta.y, 2))));
+
         /*
-        Point delta = targetPos - gamePos;
-        Point deltaSgn = {sgn(delta.x), sgn(delta.y)};
-        std::cout << "(" << delta.x << ", " << delta.y << ")\n";
-
-        if(delta == 0) {
-            return;
+        if(delta.y > 0) {
+            targetAngle *= -1;
         }
-
-        if(!(deltaSgn == prevDeltaSgn)) {
-            setPos(targetPos);
-            return;
-        }
-
-        float xPct = (float)delta.x / (float)(delta.x + delta.y);
-        float yPct = (float)delta.y / (float)(delta.x + delta.y);
-
-        std::cout << "(" << xPct << ", " << yPct << ")\n";
-
-        Point vel = {std::round(xPct * speed * deltaSgn.x), std::round(yPct * speed * deltaSgn.y)};
-
-        std::cout << "(" << vel.x << ", " << vel.y << ")\n\n";
-
-        prevDeltaSgn = deltaSgn;
-
-        setPos(gamePos + vel);
         */
+    }
 
+    virtual void updateSprite() {}
+
+protected:
+    float targetAngle {};
+    Point gamePos;
+    Point spriteDim;
+    std::shared_ptr<Sprite> sprite;
+
+
+public:
+    GameObject(std::string spriteFile, Point posInit, Point spriteSize, float maxVelocity = 1)
+    : sprite(std::make_shared<Sprite>(spriteFile, Point(posInit.x, posInit.y) - spriteSize)),
+      speed(maxVelocity), spriteDim(spriteSize), gamePos({posInit.x, posInit.y}),
+      targetPos(gamePos) {
+    }
+
+    void moveTowards () {
         Point currDelta = targetPos - gamePos;
         Point currDeltaSgn; // Modified by reference in computeNewPos
         Point nextPos = computeNewPos(gamePos, currDelta, currDeltaSgn, speed);
@@ -86,8 +71,8 @@ public:
             return;
         }
         
-
         setPos(nextPos);
+        updateSprite();
     }
 
     void setTarget(Point touchPos) { 
@@ -95,6 +80,8 @@ public:
 
         Point delta = targetPos - gamePos;
         prevDeltaSgn = {sgn(delta.x), sgn(delta.y)};
+
+        computeTargetAngle(delta);
 
         reachedTarget = false;
     }
