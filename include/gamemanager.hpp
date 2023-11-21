@@ -17,6 +17,9 @@ class GameManager {
     int minSpawnX = 10;
     int maxSpawnX = 300;
 
+    int minTrashIndex = 0;
+    int maxTrashIndex = 2;
+
     int dT = 50;
 
     std::vector<std::shared_ptr<GameObject>> trash;
@@ -49,10 +52,11 @@ public:
         std::default_random_engine eng(r());
         std::uniform_int_distribution<int> spawnTime(minSpawnCycles, maxSpawnCycles);
         std::uniform_int_distribution<int> spawnLocation(minSpawnX, maxSpawnX);
+        std::uniform_int_distribution<int> trashSelector(minTrashIndex, maxTrashIndex);
 
         while(true) {
             if(!cyclesUntilSpawn) {
-                spawnTrash(spawnLocation(eng));
+                spawnTrash(spawnLocation(eng), trashSelector(eng));
                 cyclesUntilSpawn = spawnTime(eng);
             }
             
@@ -72,11 +76,28 @@ public:
         }
     }
 
-    void spawnTrash(int xSpawn) {
-        std::shared_ptr<GameObject> tmp = std::make_shared<GameObject>("images/Boat_BottomFEH.pic", Point(xSpawn, 0), Point(32, 35), 2);
-        trash.push_back(tmp);
-        render.appendObject(tmp->getSprite());
+    void spawnTrash(int xSpawn, int trashIndex) {
 
-        tmp->setTarget(Point(xSpawn, 200));
+        std::shared_ptr<GameObject> trashPiece;
+
+        if (trashIndex == 0) {
+
+            trashPiece = std::make_shared<GameObject>("images/trash_piece_1/trash_piece_1_fullFEH.pic", Point(xSpawn, 0), Point(16, 16), 2);
+
+            trash.push_back(trashPiece);
+            render.appendObject(trashPiece->getSprite());
+
+            trashPiece->setTarget(Point(xSpawn, 200));
+
+        } else if (trashIndex == 1) {
+
+            trashPiece = std::make_shared<GameObject>("images/trash_piece_3/trash_piece_3_fullFEH.pic", Point(xSpawn, 0), Point(16, 16), 2);
+            
+            trash.push_back(trashPiece);
+            render.appendObject(trashPiece->getSprite());
+
+            trashPiece->setTarget(Point(xSpawn, 200));
+
+        }
     }
 };
