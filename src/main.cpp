@@ -6,6 +6,7 @@
 #include "include/renderqueue.hpp"
 #include "include/boat.hpp"
 #include "include/gamemanager.hpp"
+#include "include/trash.hpp"
 
 int main() {
     /*
@@ -39,7 +40,7 @@ int main() {
     }
     */
 
-   GameManager level1("images/SDP_BackgroundFEH.pic");
+   GameManager level1("images/backgrounds/1.pic");
    level1.initialize();
 
     return 0;

@@ -30,10 +30,10 @@ public:
     GameManager(std::string bkgFile) {
         bkg = std::make_shared<Sprite>(bkgFile);
         boat = std::make_shared<Boat>(std::vector<std::string>{
-            "images/BoatFEH.pic",
-            "images/Boat_RightFEH.pic",
-            "images/Boat_BottomFEH.pic",
-            "images/Boat_LeftFEH.pic"
+            "images/boat/up.pic",
+            "images/boat/right.pic",
+            "images/boat/down.pic",
+            "images/boat/left.pic"
             }, initialBoatPos, Point(32, 35), 3);
     }
 
