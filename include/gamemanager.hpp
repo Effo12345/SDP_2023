@@ -17,6 +17,9 @@ class GameManager {
     int minSpawnX = 10;
     int maxSpawnX = 300;
 
+    int minTrashIndex = 0;
+    int maxTrashIndex = 2;
+
     int dT = 50;
 
     std::vector<std::shared_ptr<GameObject>> trash;
@@ -60,7 +63,7 @@ public:
         while(true) {
             /*
             if(!cyclesUntilSpawn) {
-                spawnTrash(spawnLocation(eng));
+                spawnTrash(spawnLocation(eng), trashSelector(eng));
                 cyclesUntilSpawn = spawnTime(eng);
             }
 
@@ -94,7 +97,9 @@ public:
         trash.push_back(tmp);
         render.appendObject(tmp->getSprite());
 
-        tmp->setTarget(Point(xSpawn, 200));
+            trashPiece->setTarget(Point(xSpawn, 200));
+
+        }
     }
     */
 };
