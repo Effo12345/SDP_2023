@@ -6,10 +6,10 @@
 #include <random>
 
 class GameManager {
-    Point initialBoatPos = {0, 0};
+    Point initialBoatPos = {100, 100};
 
     std::shared_ptr<Sprite> bkg;
-    std::shared_ptr<GameObject> boat;
+    std::shared_ptr<Boat> boat;
 
     int minSpawnCycles = 10;
     int maxSpawnCycles = 30;
@@ -24,9 +24,14 @@ class GameManager {
     RenderQueue render;
 
 public:
-    GameManager(std::string bkgFile, std::string boatFile) {
+    GameManager(std::string bkgFile) {
         bkg = std::make_shared<Sprite>(bkgFile);
-        //boat = std::make_shared<GameObject>(boatFile, initialBoatPos, Point(0, 0), Point(32, 35), 3);
+        boat = std::make_shared<Boat>(std::vector<std::string>{
+            "images/BoatFEH.pic",
+            "images/Boat_RightFEH.pic",
+            "images/Boat_BottomFEH.pic",
+            "images/Boat_LeftFEH.pic"
+            }, initialBoatPos, Point(32, 35), 3);
     }
 
     ~GameManager() {
@@ -36,7 +41,7 @@ public:
 
     void initialize() {
         render.appendObject(bkg);
-        //render.appendObject(boat->getSprite());
+        render.appendObject(boat);
 
 
         update();
@@ -50,12 +55,15 @@ public:
         std::uniform_int_distribution<int> spawnTime(minSpawnCycles, maxSpawnCycles);
         std::uniform_int_distribution<int> spawnLocation(minSpawnX, maxSpawnX);
 
+        Point touchPos;
+
         while(true) {
+            /*
             if(!cyclesUntilSpawn) {
                 spawnTrash(spawnLocation(eng));
                 cyclesUntilSpawn = spawnTime(eng);
             }
-            
+
             cyclesUntilSpawn--;
 
             for(auto& t : trash) {
@@ -63,7 +71,15 @@ public:
             }
 
             std::cout << cyclesUntilSpawn << "\n";
-            
+            */
+
+            if(LCD.Touch(&touchPos.x, &touchPos.y)) {
+                boat->setTarget(touchPos);
+            }
+
+            if(!boat->hasReachedTarget()) {
+                boat->moveTowards();
+            }
 
             render.draw();
 
@@ -72,6 +88,7 @@ public:
         }
     }
 
+    /*
     void spawnTrash(int xSpawn) {
         std::shared_ptr<GameObject> tmp = std::make_shared<GameObject>("images/Boat_BottomFEH.pic", Point(xSpawn, 0), Point(32, 35), 2);
         trash.push_back(tmp);
@@ -79,4 +96,5 @@ public:
 
         tmp->setTarget(Point(xSpawn, 200));
     }
+    */
 };

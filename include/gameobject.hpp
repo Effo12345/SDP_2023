@@ -5,7 +5,6 @@
 #include <iostream>
 
 class GameObject {
-    Point targetPos;
     Point prevDeltaSgn;
     bool reachedTarget = false;
     
@@ -29,32 +28,16 @@ class GameObject {
         
         return (delta * speed) + currPos;
     }
-
-    void computeTargetAngle(Point delta) {
-        targetAngle = acos(delta.x / sqrt((pow(delta.x, 2) + pow(delta.y, 2))));
-
-        /*
-        if(delta.y > 0) {
-            targetAngle *= -1;
-        }
-        */
-    }
-
-    virtual void updateSprite() {}
-
 protected:
     float targetAngle {};
     Point gamePos;
-    Point spriteDim;
-    std::shared_ptr<Sprite> sprite;
+    Point targetPos;
 
 
 public:
-    GameObject(std::string spriteFile, Point posInit, Point spriteSize, float maxVelocity = 1)
-    : sprite(std::make_shared<Sprite>(spriteFile, Point(posInit.x, posInit.y) - spriteSize)),
-      speed(maxVelocity), spriteDim(spriteSize), gamePos({posInit.x, posInit.y}),
-      targetPos(gamePos) {
-    }
+    GameObject(Point posInit, float maxVelocity = 1)
+    : speed(maxVelocity), gamePos(posInit),
+      targetPos(gamePos) {}
 
     void moveTowards () {
         Point currDelta = targetPos - gamePos;
@@ -67,12 +50,11 @@ public:
 
         
         if(!(currDeltaSgn == nextDeltaSgn)) {
-            setPos(targetPos);
+            gamePos = targetPos;
             return;
         }
         
-        setPos(nextPos);
-        updateSprite();
+        gamePos = nextPos;
     }
 
     void setTarget(Point touchPos) { 
@@ -81,22 +63,11 @@ public:
         Point delta = targetPos - gamePos;
         prevDeltaSgn = {sgn(delta.x), sgn(delta.y)};
 
-        computeTargetAngle(delta);
-
         reachedTarget = false;
-    }
-
-    void setPos(Point pos) {
-        gamePos = pos;
-        sprite->setPos(pos - (spriteDim / 2));
     }
 
     Point getPos() {
         return gamePos;
-    }
-
-    std::shared_ptr<Sprite> getSprite() {
-        return sprite;
     }
 
     bool hasReachedTarget() {

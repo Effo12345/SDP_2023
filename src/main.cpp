@@ -39,7 +39,7 @@ int main() {
     }
     */
 
-   GameManager level1("images/SDP_BackgroundFEH.pic", "BoatFEH.pic");
+   GameManager level1("images/SDP_BackgroundFEH.pic");
    level1.initialize();
 
     return 0;

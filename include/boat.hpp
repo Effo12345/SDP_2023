@@ -5,45 +5,60 @@
 #include <array>
 #include <float.h>
 
-class Boat : public GameObject {
-    int currentSprite {};
+class Boat : public RenderObject, public GameObject {
     std::vector<std::shared_ptr<Sprite>> sprites;
+    int currentSprite {};
+    Point spriteSize;
 
-    void updateSprite() {
-        std::array<float, 4> angleReferences = {0, M_PI / 2, M_PI, 3 * M_PI / 2};
-        
+    void updateSpriteAngle() {
+        Point delta = gamePos - targetPos;
+        delta.normalize();
 
-        float smallestDelta = FLT_MAX;
-        int smallestIndex {};
-        for(int i = 0; i < angleReferences.size(); i++) {
-            float delta = fabs(angleReferences[i] - targetAngle);
-
-            if(delta < smallestDelta) {
-                smallestDelta = delta;
-                smallestIndex = i;
+        if(fabs(delta.y) >= fabs(delta.x)) {
+            if(delta.y > 0) {
+                // up
+                currentSprite = 0;
             }
-
-            std::cout << smallestIndex << ", " << targetAngle << "\n";
+            else if(delta.y < 0) {
+                // down
+                currentSprite = 2;
+            }
         }
-
-        
-
-        currentSprite = smallestIndex;
-
-        for(auto& s : sprites) {
-            s->setPos(sprite->getPos());
+        else {
+            if(delta.x > 0) {
+                // left
+                currentSprite = 3;
+            }
+            else if(delta.x < 0) {
+                // right
+                currentSprite = 1;
+            }
         }
     }
+
 
 public:
-    Boat(std::vector<char*> spriteFiles, Point posInit, Point spriteSize, float maxVelocity = 1)
-    : GameObject(spriteFiles[0], posInit, spriteSize, maxVelocity) {
-        for(auto& s : spriteFiles) {
-            sprites.push_back(std::make_shared<Sprite>(s, posInit));
+    Boat(std::vector<std::string> spriteFiles, Point startingPos, Point spriteDim, float maxVel = 1) 
+    : GameObject(startingPos, maxVel), spriteSize(spriteDim) {
+        for(auto& str : spriteFiles) {
+            sprites.push_back(
+                std::make_shared<Sprite>(str, startingPos - (spriteDim / 2))
+            );
         }
     }
 
-    std::shared_ptr<Sprite>& getSprite() {
-        return sprites[currentSprite];
+    void setTarget(Point touch) {
+        GameObject::setTarget(touch);
+
+        updateSpriteAngle();
+    }
+
+
+    void draw() {
+        for(auto& p : sprites) {
+            p->setPos(gamePos - (spriteSize / 2));
+        }
+
+        sprites[currentSprite]->draw();
     }
 };
