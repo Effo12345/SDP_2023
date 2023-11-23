@@ -9,6 +9,8 @@ class Trash : public RenderObject, public GameObject {
     std::vector<std::shared_ptr<Sprite>> introAnim;
     std::shared_ptr<Sprite> sprite;
     Point spriteSize = {16.0f, 16.0f};
+
+    std::array<Point, 3> spawnOffsets = {{{0, -5}, {0, -3}}};
     
     int targetY = 170;
     const float maxSpeed = 1.0f;   // Must stay constant for intro animation to work
@@ -31,6 +33,8 @@ public:
                 std::make_shared<Sprite>(trashFolders[trashIndex].first + std::to_string(i + 1) + ".pic")
             );
         }
+
+        gamePos = gamePos + spawnOffsets[trashIndex];
 
         sprite = std::make_shared<Sprite>(trashFolders[trashIndex].first + "full.pic");
     }
