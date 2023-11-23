@@ -19,7 +19,7 @@ class RenderObject {
     virtual ~RenderObject();
 
     // Returns the object's position
-    Point getPos() const;
+    //Point getPos() const;
     // Sets objects position. Overloaded
     void setPos(int x, int y);
     // Another way of set the object's position. Overloaded

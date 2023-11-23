@@ -7,9 +7,9 @@ RenderObject::~RenderObject() {
 }
 
 // Returns the object's position
-Point RenderObject::getPos() const {
-    return renderPos;
-}
+// Point RenderObject::getPos() const {
+//     return renderPos;
+// }
 
 // Sets objects position. Overloaded
 void RenderObject::setPos(int x, int y) {

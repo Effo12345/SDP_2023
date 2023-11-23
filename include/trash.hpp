@@ -5,30 +5,25 @@
 #include <vector>
 #include <array>
 
-// TODO
-// TODO
-// TODO
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// Add sprite size offset to render position
-
 class Trash : public RenderObject, public GameObject {
     std::vector<std::shared_ptr<Sprite>> introAnim;
     std::shared_ptr<Sprite> sprite;
+    Point spriteSize = {16.0f, 16.0f};
     
-    int targetY = 200;
+    int targetY = 170;
+    const float maxSpeed = 1.0f;   // Must stay constant for intro animation to work
 
     
     std::array<std::pair<std::string, int>, 3> trashFolders = {{
         {"images/trash0/", 9},
-        {"images/trash1/", 3},
-        {"images/trash2/", 6}
+        {"images/trash1/", 6}
     }};
     int introIter {};
 
 
 public:
-    Trash(Point spawnLocation, float maxSpeed = 1.0f, int trashIndex = 0)
-    : GameObject(spawnLocation, maxSpeed) {
+    Trash(Point spawnLocation, int trashIndex = 0)
+    : GameObject(spawnLocation, 1.0f) {
         setTarget(Point(spawnLocation.x, targetY));
 
         for(int i = 0; i < trashFolders[trashIndex].second; i++) {
@@ -37,18 +32,20 @@ public:
             );
         }
 
-        sprite = std::make_shared<Sprite>(trashFolders[trashIndex].first = "full.pic");
+        sprite = std::make_shared<Sprite>(trashFolders[trashIndex].first + "full.pic");
     }
 
     void draw() {
         if(introIter < introAnim.size()) {
-            introAnim[introIter]->setPos(gamePos);   // TODO Fix render pos offset
+            introAnim[introIter]->setPos(gamePos - (spriteSize / 2));
             introAnim[introIter]->draw();
+
+            introIter++;
 
             return;
         }
 
-        sprite->setPos(gamePos);                     // TODO Fix render pos offset
+        sprite->setPos(gamePos - spriteSize / 2);
         sprite->draw();
     }
 };

@@ -54,8 +54,8 @@ struct Point {
         return sqrt((x * x) + (y * y));
     }
 
-    Point absVal() {
-        return {std::abs(x), std::abs(y)};
+    Point abs() {
+        return {std::fabs(x), std::fabs(y)};
     }
 
     void transpose() {

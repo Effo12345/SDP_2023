@@ -3,6 +3,7 @@
 #include "gameobject.hpp"
 #include "renderqueue.hpp"
 #include "FEHUtility.h"
+#include "trash.hpp"
 #include <random>
 
 class GameManager {
@@ -18,11 +19,11 @@ class GameManager {
     int maxSpawnX = 300;
 
     int minTrashIndex = 0;
-    int maxTrashIndex = 2;
+    int maxTrashIndex = 1;
 
     int dT = 50;
 
-    std::vector<std::shared_ptr<GameObject>> trash;
+    std::vector<std::shared_ptr<Trash>> trash;
 
     RenderQueue render;
 
@@ -57,13 +58,13 @@ public:
         std::default_random_engine eng(r());
         std::uniform_int_distribution<int> spawnTime(minSpawnCycles, maxSpawnCycles);
         std::uniform_int_distribution<int> spawnLocation(minSpawnX, maxSpawnX);
+        std::uniform_int_distribution<int> trashIndex(minTrashIndex, maxTrashIndex);
 
         Point touchPos;
 
         while(true) {
-            /*
             if(!cyclesUntilSpawn) {
-                spawnTrash(spawnLocation(eng), trashSelector(eng));
+                spawnTrash(spawnLocation(eng), trashIndex(eng));
                 cyclesUntilSpawn = spawnTime(eng);
             }
 
@@ -73,8 +74,8 @@ public:
                 t->moveTowards();
             }
 
-            std::cout << cyclesUntilSpawn << "\n";
-            */
+            //std::cout << cyclesUntilSpawn << "\n";
+            
 
             if(LCD.Touch(&touchPos.x, &touchPos.y)) {
                 boat->setTarget(touchPos);
@@ -91,15 +92,11 @@ public:
         }
     }
 
-    /*
-    void spawnTrash(int xSpawn) {
-        std::shared_ptr<GameObject> tmp = std::make_shared<GameObject>("images/Boat_BottomFEH.pic", Point(xSpawn, 0), Point(32, 35), 2);
+    void spawnTrash(int xSpawn, int trashIndex) {
+        std::shared_ptr<Trash> tmp = std::make_shared<Trash>(Point(xSpawn, 0), trashIndex);
         trash.push_back(tmp);
-        render.appendObject(tmp->getSprite());
+        render.appendObject(tmp);
 
-            trashPiece->setTarget(Point(xSpawn, 200));
-
-        }
+        //tmp->setTarget(Point(xSpawn, 200));
     }
-    */
 };
