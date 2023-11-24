@@ -27,6 +27,24 @@ class GameManager {
 
     RenderQueue render;
 
+    void spawnTrash(int xSpawn, int trashIndex) {
+        std::shared_ptr<Trash> tmp = std::make_shared<Trash>(Point(xSpawn, 0), trashIndex);
+        trash.push_back(tmp);
+        render.appendObject(tmp);
+    }
+
+    void checkTrashCollision() {
+        for(int i = 0; i < trash.size();) {
+            if(boat->isColliding(trash[i]->getPos())) {
+                trash[i]->destroy();
+                trash.erase(trash.begin() + i);
+                continue;
+            }
+
+            i++;
+        }
+    }
+
 public:
     GameManager(std::string bkgFile) {
         bkg = std::make_shared<Sprite>(bkgFile);
@@ -35,7 +53,7 @@ public:
             "images/boat/right.pic",
             "images/boat/down.pic",
             "images/boat/left.pic"
-            }, initialBoatPos, Point(32, 35), 3);
+            }, initialBoatPos, Point(32, 35), Point(20, 25), 3);
     }
 
     ~GameManager() {
@@ -73,8 +91,6 @@ public:
             for(auto& t : trash) {
                 t->moveTowards();
             }
-
-            //std::cout << cyclesUntilSpawn << "\n";
             
 
             if(LCD.Touch(&touchPos.x, &touchPos.y)) {
@@ -85,18 +101,12 @@ public:
                 boat->moveTowards();
             }
 
+            checkTrashCollision();
+
             render.draw();
 
 
             Sleep(dT);
         }
-    }
-
-    void spawnTrash(int xSpawn, int trashIndex) {
-        std::shared_ptr<Trash> tmp = std::make_shared<Trash>(Point(xSpawn, 0), trashIndex);
-        trash.push_back(tmp);
-        render.appendObject(tmp);
-
-        //tmp->setTarget(Point(xSpawn, 200));
     }
 };

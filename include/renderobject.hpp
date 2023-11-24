@@ -1,6 +1,7 @@
 #pragma once
 
 #include "point.hpp"
+#include <iostream>
 
 /*
  * @author Ethan Rosati

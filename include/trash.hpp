@@ -25,7 +25,7 @@ class Trash : public RenderObject, public GameObject {
 
 public:
     Trash(Point spawnLocation, int trashIndex = 0)
-    : GameObject(spawnLocation, 1.0f) {
+    : GameObject(spawnLocation, 1.0f) {  // TODO: Why no take maxSpeed instead of magic number?
         setTarget(Point(spawnLocation.x, targetY));
 
         for(int i = 0; i < trashFolders[trashIndex].second; i++) {

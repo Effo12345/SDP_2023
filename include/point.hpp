@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cmath>
+#include <iostream>
 
 /*
  * @author Ethan Rosati
@@ -55,13 +56,17 @@ struct Point {
     }
 
     Point abs() {
-        return {std::fabs(x), std::fabs(y)};
+        return {fabs(x), fabs(y)};
     }
 
     void transpose() {
-        float tmp = x;
+        std::cout << x << ", " << y << "\n";
+
+        float tmp = y;
         y = x;
         x = tmp;
+
+        std::cout << x << ", " << y << "\n\n";
     }
 
     void normalize() {
