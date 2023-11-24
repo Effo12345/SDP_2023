@@ -23,7 +23,7 @@ class GameManager {
     int maxSpawnX = 300;
 
     int minTrashIndex = 0;
-    int maxTrashIndex = 1;
+    int maxTrashIndex = 3;
 
     int dT = 50;
 

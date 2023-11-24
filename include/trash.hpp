@@ -16,9 +16,11 @@ class Trash : public RenderObject, public GameObject {
     const float maxSpeed = 1.0f;   // Must stay constant for intro animation to work
 
     
-    std::array<std::pair<std::string, int>, 3> trashFolders = {{
+    std::array<std::pair<std::string, int>, 5> trashFolders = {{
         {"images/trash0/", 9},
-        {"images/trash1/", 6}
+        {"images/trash1/", 6},
+        {"images/trash2/", 10},
+        {"images/trash3/", 11}
     }};
     int introIter {};
 
