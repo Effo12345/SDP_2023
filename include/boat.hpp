@@ -14,7 +14,7 @@ class Boat : public RenderObject, public GameObject {
     bool isVertical = true;
     bool wasVertical = true;
 
-    bool debugMode = true;
+    bool debugMode = false;
 
     void updateSpriteAngle() {
         Point delta = gamePos - targetPos;
@@ -61,8 +61,6 @@ public:
                 std::make_shared<Sprite>(str, startingPos - (spriteDim / 2))
             );
         }
-
-        std::cout << spriteSize.x << ", " << spriteSize.y << "\n";
     }
 
     bool isColliding(Point objPos) {

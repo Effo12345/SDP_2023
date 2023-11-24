@@ -60,13 +60,9 @@ struct Point {
     }
 
     void transpose() {
-        std::cout << x << ", " << y << "\n";
-
         float tmp = y;
         y = x;
         x = tmp;
-
-        std::cout << x << ", " << y << "\n\n";
     }
 
     void normalize() {

@@ -5,12 +5,16 @@
 #include "FEHUtility.h"
 #include "trash.hpp"
 #include <random>
+#include <algorithm>
 
 class GameManager {
     Point initialBoatPos = {100, 100};
 
     std::shared_ptr<Sprite> bkg;
     std::shared_ptr<Boat> boat;
+
+    Point minTouch{20, 20};
+    Point maxTouch{299, 150};
 
     int minSpawnCycles = 10;
     int maxSpawnCycles = 30;
@@ -43,6 +47,11 @@ class GameManager {
 
             i++;
         }
+    }
+
+    void boundsCheckTouch(Point& touchPos) {
+        touchPos.x = std::clamp(touchPos.x, minTouch.x, maxTouch.x);
+        touchPos.y = std::clamp(touchPos.y, minTouch.y, maxTouch.y);
     }
 
 public:
@@ -94,6 +103,7 @@ public:
             
 
             if(LCD.Touch(&touchPos.x, &touchPos.y)) {
+                boundsCheckTouch(touchPos);
                 boat->setTarget(touchPos);
             }
 
