@@ -62,7 +62,7 @@ public:
             "images/boat/right.pic",
             "images/boat/down.pic",
             "images/boat/left.pic"
-            }, initialBoatPos, Point(32, 35), Point(20, 25), 3);
+        }, initialBoatPos, Point(32, 35), Point(20, 25), 3);
     }
 
     ~GameManager() {
