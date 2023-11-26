@@ -98,7 +98,8 @@ public:
             cyclesUntilSpawn--;
 
             for(auto& t : trash) {
-                t->moveTowards();
+                if(!t->hasReachedTarget())
+                    t->moveTowards();
             }
             
 
