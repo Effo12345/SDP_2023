@@ -8,10 +8,13 @@
 #include <algorithm>
 
 class GameManager {
-    Point initialBoatPos = {100, 100};
+    Point initialBoatPos = {160, 130};
 
     std::shared_ptr<Sprite> bkg;
     std::shared_ptr<Boat> boat;
+    std::shared_ptr<Sprite> target;
+
+    Point targetSize {16, 16};
 
     Point minTouch{20, 20};
     Point maxTouch{299, 150};
@@ -63,6 +66,9 @@ public:
             "images/boat/down.pic",
             "images/boat/left.pic"
         }, initialBoatPos, Point(32, 35), Point(20, 25), 3);
+
+        target = std::make_shared<Sprite>("images/trash0/full.pic");
+        target->setActive(false);
     }
 
     ~GameManager() {
@@ -72,6 +78,7 @@ public:
 
     void initialize() {
         render.appendObject(bkg);
+        render.appendObject(target);
         render.appendObject(boat);
 
 
@@ -87,7 +94,7 @@ public:
         std::uniform_int_distribution<int> spawnLocation(minSpawnX, maxSpawnX);
         std::uniform_int_distribution<int> trashIndex(minTrashIndex, maxTrashIndex);
 
-        Point touchPos;
+        Point touchPos = initialBoatPos;
 
         while(true) {
             if(!cyclesUntilSpawn) {
@@ -106,10 +113,12 @@ public:
             if(LCD.Touch(&touchPos.x, &touchPos.y)) {
                 boundsCheckTouch(touchPos);
                 boat->setTarget(touchPos);
+                target->setPos(touchPos - (targetSize / 2));
             }
 
             if(!boat->hasReachedTarget()) {
                 boat->moveTowards();
+                target->setActive(true);
             }
 
             checkTrashCollision();

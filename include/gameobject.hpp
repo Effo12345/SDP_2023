@@ -6,7 +6,7 @@
 
 class GameObject {
     Point prevDeltaSgn;
-    bool reachedTarget = false;
+    bool reachedTarget = true;
     
     float speed;
 

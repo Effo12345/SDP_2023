@@ -15,13 +15,13 @@ char labels[][20] = {"Play", "Instructions", "Stats", "Credits"};
 FEHIcon::Icon back[1];
 char backLabel[1][20] = {"Back"};
 
-const char* backgroundFileNames[] = {"images/backgrounds/credits.pic", "images/backgrounds/instructions.pic", "images/backgrounds/stats.pic"};
+std::string backgroundFileNames[] = {"images/backgrounds/credits.pic", "images/backgrounds/instructions.pic", "images/backgrounds/stats.pic"};
 
-void drawBackground (const char* backgroundFileName) {
+void drawBackground (std::string backgroundFileName) {
 
     FEHImage backgroundImage;
 
-    backgroundImage.Open(backgroundFileName);
+    backgroundImage.Open(backgroundFileName.c_str());
 
     backgroundImage.Draw(0, 0);
 
@@ -30,7 +30,7 @@ void drawBackground (const char* backgroundFileName) {
 }
 
 void drawBackBtn() {
-    FEHIcon::DrawIconArray(back, 1, 1, 0, 210, 0, 230, backLabel, WHITE, WHITE);
+    FEHIcon::DrawIconArray(back, 1, 1, 0, 210, 0, 270, backLabel, WHITE, WHITE);
 }
 
 void menu() {
@@ -53,6 +53,11 @@ void stats() {
 
     drawBackground(backgroundFileNames[2]);
 
+    LCD.SetFontColor(WHITE);
+    LCD.WriteAt("23", 235, 85);
+    LCD.WriteAt("2", 235, 105);
+    LCD.WriteAt("3", 235, 125);
+
     drawBackBtn();
 }
 
@@ -66,9 +71,10 @@ void credits() {
 
 int main() {
 
-//    GameManager level1("images/backgrounds/1.pic");
-//    level1.initialize();
+   GameManager level1("images/backgrounds/1.pic");
+   level1.initialize();
 
+    /*
     std::array<std::function<void()>, 5> screens {{
         menu, play, instructions, stats, credits
     }};
@@ -101,6 +107,7 @@ int main() {
 
         Sleep(100);
     }
+    */
 
     return 0;
 }

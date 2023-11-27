@@ -4,6 +4,8 @@
 #include "FEHImages.h"
 
 class Sprite : public RenderObject, public FEHImage {
+    private:
+        Point spriteSize;
     public:
     Sprite(std::string file) {
         Open(file.c_str());
@@ -25,6 +27,10 @@ class Sprite : public RenderObject, public FEHImage {
 
     void draw() {
         Draw(std::round(renderPos.x), std::round(renderPos.y));
+    }
+
+    void sizeOffsetDraw() {
+        
     }
 
 };

@@ -50,6 +50,16 @@ struct Point {
         return {x / div, y / div};
     }
 
+    Point operator+=(const Point& p) {
+        x += p.x;
+        y += p.y;
+    }
+
+    Point operator-=(const Point& p) {
+        x -= p.x;
+        y -= p.y;
+    }
+
     // Mathematical quantity operators
     float size() {
         return sqrt((x * x) + (y * y));
