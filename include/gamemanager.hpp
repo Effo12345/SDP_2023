@@ -13,6 +13,12 @@ class GameManager {
     std::shared_ptr<Sprite> bkg;
     std::shared_ptr<Boat> boat;
     std::shared_ptr<Sprite> target;
+    std::vector<std::shared_ptr<Sprite>> turtles;
+
+    int numLives = 3;
+    int turtleXPose = 135;
+    int turtleYPose = 185;
+    int turtleSpacing = 20;
 
     Point targetSize {16, 16};
 
@@ -57,6 +63,11 @@ class GameManager {
         touchPos.y = std::clamp(touchPos.y, minTouch.y, maxTouch.y);
     }
 
+    void killTurtle() {
+        turtles[turtles.size() - 1]->destroy();
+        turtles.erase(turtles.end());
+    }
+
 public:
     GameManager(std::string bkgFile) {
         bkg = std::make_shared<Sprite>(bkgFile);
@@ -69,6 +80,12 @@ public:
 
         target = std::make_shared<Sprite>("images/trash0/full.pic");
         target->setActive(false);
+
+        for(int i = 0; i < numLives; i++) {
+            turtles.push_back(
+                std::make_shared<Sprite>("images/turtle.pic", Point(turtleXPose + turtleSpacing * i, turtleYPose))
+            );
+        }
     }
 
     ~GameManager() {
@@ -81,6 +98,8 @@ public:
         render.appendObject(target);
         render.appendObject(boat);
 
+        for(auto& sprite : turtles)
+            render.appendObject(sprite);
 
         update();
     }
@@ -104,9 +123,20 @@ public:
 
             cyclesUntilSpawn--;
 
-            for(auto& t : trash) {
-                if(!t->hasReachedTarget())
-                    t->moveTowards();
+            for(int i = 0; i < trash.size();) {
+                if(!trash[i]->hasReachedTarget()) {
+                    trash[i]->moveTowards();
+                    i++;
+                }
+                else {
+                    trash.erase(trash.begin() + i);
+                    killTurtle();
+                    numLives--;
+                }
+            }
+
+            if(numLives < 1) {
+                break;
             }
             
 
