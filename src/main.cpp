@@ -15,6 +15,20 @@ char labels[][20] = {"Play", "Instructions", "Stats", "Credits"};
 FEHIcon::Icon back[1];
 char backLabel[1][20] = {"Back"};
 
+const char* backgroundFileNames[] = {"images/backgrounds/credits.pic", "images/backgrounds/instructions.pic", "images/backgrounds/stats.pic"};
+
+void drawBackground (const char* backgroundFileName) {
+
+    FEHImage backgroundImage;
+
+    backgroundImage.Open(backgroundFileName);
+
+    backgroundImage.Draw(0, 0);
+
+    backgroundImage.Close();
+
+}
+
 void drawBackBtn() {
     FEHIcon::DrawIconArray(back, 1, 1, 0, 210, 0, 230, backLabel, WHITE, WHITE);
 }
@@ -30,15 +44,21 @@ void play() {
 
 void instructions() {
 
+    drawBackground(backgroundFileNames[1]);
+
     drawBackBtn();
 }
 
 void stats() {
 
+    drawBackground(backgroundFileNames[2]);
+
     drawBackBtn();
 }
 
 void credits() {
+
+    drawBackground(backgroundFileNames[0]);
 
     drawBackBtn();
 }
