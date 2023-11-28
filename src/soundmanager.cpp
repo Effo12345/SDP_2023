@@ -71,19 +71,6 @@ int SoundManager::play(std::string path, float volume, bool ShouldLoop) {
     return 0;
 }
 
-void SoundManager::playMusic(std::string path, bool doLoop) {
-    path = BasePath + "\\" + path;
-
-    if(doLoop)
-        PlaySound(path.c_str(), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
-    else
-        PlaySound(path.c_str(), NULL, SND_FILENAME | SND_ASYNC);
-}
-
-void SoundManager::stopMusic() {
-    PlaySound(NULL, NULL, NULL);
-}
-
 
 HRESULT SoundManager::FindChunk(HANDLE hFile, DWORD fourcc, DWORD& dwChunkSize, DWORD& dwChunkDataPosition) {
     HRESULT hr = S_OK;

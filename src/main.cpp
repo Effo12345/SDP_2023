@@ -71,10 +71,10 @@ void credits() {
 
 int main() {
 
-//    GameManager level1("images/backgrounds/1.pic", 10, 30, 50);
-//    level1.initialize();
+   GameManager level1("images/backgrounds/1.pic", 10, 30, 50);
+   level1.initialize();
 
-    
+    /*
     std::array<std::function<void()>, 5> screens {{
         menu, play, instructions, stats, credits
     }};
@@ -110,7 +110,7 @@ int main() {
 
         Sleep(100);
     }
-    
+    */
 
     return 0;
 }
