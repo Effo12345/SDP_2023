@@ -82,7 +82,7 @@ public:
             "images/boat/left.pic"
         }, initialBoatPos, Point(32, 35), Point(20, 25), 4);
 
-        target = std::make_shared<Sprite>("images/trash0/full.pic");
+        target = std::make_shared<Sprite>("images/target.pic");
         target->setActive(false);
 
         for(int i = 0; i < numLives; i++) {
