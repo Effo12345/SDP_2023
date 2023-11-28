@@ -71,7 +71,7 @@ void credits() {
 
 int main() {
 
-   GameManager level1("images/backgrounds/1.pic");
+   GameManager level1("images/backgrounds/1.pic", 10, 30, 50);
    level1.initialize();
 
     /*

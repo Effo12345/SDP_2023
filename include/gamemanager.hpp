@@ -65,18 +65,19 @@ class GameManager {
 
     void killTurtle() {
         turtles[turtles.size() - 1]->destroy();
-        turtles.erase(turtles.end());
+        turtles.pop_back();
     }
 
 public:
-    GameManager(std::string bkgFile) {
+    GameManager(std::string bkgFile, int minTrashTime, int maxTrashTime, int timeStep = 50)
+    : minSpawnCycles{minTrashTime}, maxSpawnCycles{maxTrashTime}, dT{timeStep} {
         bkg = std::make_shared<Sprite>(bkgFile);
         boat = std::make_shared<Boat>(std::vector<std::string>{
             "images/boat/up.pic",
             "images/boat/right.pic",
             "images/boat/down.pic",
             "images/boat/left.pic"
-        }, initialBoatPos, Point(32, 35), Point(20, 25), 3);
+        }, initialBoatPos, Point(32, 35), Point(20, 25), 4);
 
         target = std::make_shared<Sprite>("images/trash0/full.pic");
         target->setActive(false);
