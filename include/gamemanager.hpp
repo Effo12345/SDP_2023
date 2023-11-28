@@ -170,5 +170,7 @@ public:
 
             Sleep(dT);
         }
+
+        soundManager.stopSounds();
     }
 };

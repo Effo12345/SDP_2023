@@ -74,6 +74,10 @@ int main() {
    GameManager level1("images/backgrounds/1.pic", 10, 30, 50);
    level1.initialize();
 
+   while(1) {
+        Sleep(100);
+   }
+
     /*
     std::array<std::function<void()>, 5> screens {{
         menu, play, instructions, stats, credits

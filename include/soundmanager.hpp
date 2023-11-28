@@ -23,8 +23,7 @@
 #define fourccDPDS 'sdpd'
 #endif
 
-class SoundManager
-{
+class SoundManager {
 private:
     HRESULT hr;
     IXAudio2* pXAudio2;
@@ -35,4 +34,5 @@ public:
     SoundManager();
     int play(std::string path, float volume = 1, bool ShouldLoop = false); // plays the audio file with specified volume and can be looped
     std::string BasePath; // Directory where all audio files (relevant to project) are stored i.e if all audio files are stored in "D:\game" than set BasePath to "D:\game", this will be automatically added in path of every audio file
+    void stopSounds();
 };

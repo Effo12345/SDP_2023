@@ -71,6 +71,10 @@ int SoundManager::play(std::string path, float volume, bool ShouldLoop) {
     return 0;
 }
 
+void SoundManager::stopSounds() {
+    pXAudio2->StopEngine();
+}
+
 
 HRESULT SoundManager::FindChunk(HANDLE hFile, DWORD fourcc, DWORD& dwChunkSize, DWORD& dwChunkDataPosition) {
     HRESULT hr = S_OK;
