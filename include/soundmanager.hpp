@@ -33,7 +33,7 @@ private:
     HRESULT ReadChunkData(HANDLE hFile, void* buffer, DWORD buffersize, DWORD bufferoffset);
 public:
     SoundManager();
-    int Play(std::string path, float volume = 1, bool ShouldLoop = false); // plays the audio file with specified volume and can be looped
+    int play(std::string path, float volume = 1, bool ShouldLoop = false); // plays the audio file with specified volume and can be looped
     void playMusic(std::string path, bool doLoop = true);
     void stopMusic();
     std::string BasePath; // Directory where all audio files (relevant to project) are stored i.e if all audio files are stored in "D:\game" than set BasePath to "D:\game", this will be automatically added in path of every audio file

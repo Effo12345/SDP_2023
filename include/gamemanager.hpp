@@ -6,6 +6,7 @@
 #include "trash.hpp"
 #include <random>
 #include <algorithm>
+#include "soundmanager.hpp"
 
 class GameManager {
     Point initialBoatPos = {160, 130};
@@ -14,6 +15,8 @@ class GameManager {
     std::shared_ptr<Boat> boat;
     std::shared_ptr<Sprite> target;
     std::vector<std::shared_ptr<Sprite>> turtles;
+
+    SoundManager soundManager;
 
     int numLives = 3;
     int turtleXPose = 135;
@@ -101,6 +104,8 @@ public:
 
         for(auto& sprite : turtles)
             render.appendObject(sprite);
+
+        soundManager.BasePath = "sounds";
 
         update();
     }

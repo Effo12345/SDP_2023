@@ -14,7 +14,7 @@ SoundManager::SoundManager() {
         std::cout << hr;
 }
 
-int SoundManager::Play(std::string path, float volume, bool ShouldLoop) {
+int SoundManager::play(std::string path, float volume, bool ShouldLoop) {
     path = BasePath + "\\" + path;
     WAVEFORMATEXTENSIBLE wfx = { 0 };
     XAUDIO2_BUFFER buffer = { 0 };
@@ -72,6 +72,8 @@ int SoundManager::Play(std::string path, float volume, bool ShouldLoop) {
 }
 
 void SoundManager::playMusic(std::string path, bool doLoop) {
+    path = BasePath + "\\" + path;
+
     if(doLoop)
         PlaySound(path.c_str(), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
     else

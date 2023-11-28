@@ -71,10 +71,10 @@ void credits() {
 
 int main() {
 
-   GameManager level1("images/backgrounds/1.pic", 10, 30, 50);
-   level1.initialize();
+//    GameManager level1("images/backgrounds/1.pic", 10, 30, 50);
+//    level1.initialize();
 
-    /*
+    
     std::array<std::function<void()>, 5> screens {{
         menu, play, instructions, stats, credits
     }};
@@ -88,10 +88,13 @@ int main() {
         int xTouch, yTouch;
 
         if(LCD.Touch(&xTouch, &yTouch)) {
-            if(!isMainMenu && back[0].Pressed(xTouch, yTouch, btnMode)) {
-                renderTarget = 0;
-                isMainMenu = true;
-            } 
+            if(!isMainMenu) {
+                if(back[0].Pressed(xTouch, yTouch, btnMode)) {
+                    renderTarget = 0;
+                    isMainMenu = true;
+                }
+                continue;
+            }
 
             for(int i = 0; i < 5; i++) {
                 if(btns[i].Pressed(xTouch, yTouch, btnMode)) {
@@ -107,7 +110,7 @@ int main() {
 
         Sleep(100);
     }
-    */
+    
 
     return 0;
 }
