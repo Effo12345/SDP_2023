@@ -17,7 +17,7 @@ class GameManager {
     std::vector<std::shared_ptr<Sprite>> turtles;
 
     SoundManager soundManager;
-    float soundEffectVolume = 0.25f;
+    std::string musicPath;
 
     int numLives = 3;
     int turtleXPose = 135;
@@ -56,7 +56,7 @@ class GameManager {
                 trash[i]->destroy();
                 trash.erase(trash.begin() + i);
 
-                soundManager.play("pickupTrash.wav", soundEffectVolume);
+                soundManager.play("pickupTrash.wav", 0.25f);
                 continue;
             }
 
@@ -73,12 +73,12 @@ class GameManager {
         turtles[turtles.size() - 1]->destroy();
         turtles.pop_back();
 
-        soundManager.play("turtleDeath.wav", soundEffectVolume);
+        soundManager.play("turtleDeath.wav", 1.0f);
     }
 
 public:
-    GameManager(std::string bkgFile, int minTrashTime, int maxTrashTime, int timeStep = 50)
-    : minSpawnCycles{minTrashTime}, maxSpawnCycles{maxTrashTime}, dT{timeStep} {
+    GameManager(std::string bkgFile, std::string musicFile, int targetTrash, int minTrashTime, int maxTrashTime, int timeStep = 50)
+    : musicPath{musicFile}, minSpawnCycles{minTrashTime}, maxSpawnCycles{maxTrashTime}, dT{timeStep} {
         bkg = std::make_shared<Sprite>(bkgFile);
         boat = std::make_shared<Boat>(std::vector<std::string>{
             "images/boat/up.pic",
@@ -111,7 +111,7 @@ public:
             render.appendObject(sprite);
 
         soundManager.BasePath = "sounds";
-        soundManager.play("levelMusic.wav", 1.0f, true);
+        soundManager.play(musicPath.c_str(), 1.0f, true);
 
         update();
     }

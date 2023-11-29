@@ -5,6 +5,7 @@
 #include <xaudio2.h>
 #include <iostream>
 #include <string>
+#include <vector>
 #ifdef _XBOX 
 #define fourccRIFF 'RIFF'
 #define fourccDATA 'data'
@@ -30,6 +31,8 @@ private:
     IXAudio2MasteringVoice* pMasterVoice;
     HRESULT FindChunk(HANDLE hFile, DWORD fourcc, DWORD& dwChunkSize, DWORD& dwChunkDataPosition);
     HRESULT ReadChunkData(HANDLE hFile, void* buffer, DWORD buffersize, DWORD bufferoffset);
+
+    std::vector<IXAudio2SourceVoice*> activeSounds;
 public:
     SoundManager();
     int play(std::string path, float volume = 1, bool ShouldLoop = false); // plays the audio file with specified volume and can be looped

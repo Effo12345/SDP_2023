@@ -68,11 +68,17 @@ int SoundManager::play(std::string path, float volume, bool ShouldLoop) {
     if (FAILED(hr = pSourceVoice->Start(0)))
         std::cout << hr;
 
+    activeSounds.push_back(pSourceVoice);
+
     return 0;
 }
 
 void SoundManager::stopSounds() {
-    pXAudio2->StopEngine();
+    for(IXAudio2SourceVoice* sound : activeSounds) {
+        sound->Stop();
+        sound->DestroyVoice();
+    }
+    activeSounds.clear();
 }
 
 
