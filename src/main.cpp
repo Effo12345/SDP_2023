@@ -108,49 +108,36 @@ void drawMainMenu() {
     std::cout << "Drew main menu\n\n";
 }
 
-void playGame() {
+bool playLevel(std::string bkg, std::string music, int trashTarget, int minTrashTime, int maxTrashTime, int dT) {
     bool levelCompleted = false;
     bool returnToMenu = false;
 
     while(!levelCompleted) {
-        std::unique_ptr<GameManager> level1 = std::make_unique<GameManager>(
-            "images/backgrounds/1.pic", "level1.wav", levelCompleted, returnToMenu,
-             10, 10, 30, 50
+        std::unique_ptr<GameManager> level = std::make_unique<GameManager>(
+            bkg, music, levelCompleted, returnToMenu,
+             trashTarget, minTrashTime, maxTrashTime, dT
         );
-        level1->initialize();
-        level1->updateStats(stats);
+        level->initialize();
+        level->updateStats(stats);
+
+        stats.writeStats();
 
         if(returnToMenu)
-            return;
+            return true;
     }
 
-    levelCompleted = false;
+    return false;
+}
 
-    while(!levelCompleted) {
-        std::unique_ptr<GameManager> level2 = std::make_unique<GameManager>(
-            "images/backgrounds/1.pic", "level2.wav", levelCompleted, returnToMenu,
-             10, 10, 30, 40
-        );
-        level2->initialize();
-        level2->updateStats(stats);
+void playGame() {
+    if(playLevel("images/backgrounds/1.pic", "level1.wav", 10, 10, 30, 50))
+        return;
 
-        if(returnToMenu)
-            return;
-    }
-
-    levelCompleted = false;
-
-    while(!levelCompleted) {
-        std::unique_ptr<GameManager> level3 = std::make_unique<GameManager>(
-            "images/backgrounds/1.pic", "level3.wav", levelCompleted, returnToMenu,
-             10, 10, 30, 20
-        );
-        level3->initialize();
-        level3->updateStats(stats);
-
-        if(returnToMenu)
-            return;
-    }
+    if(playLevel("images/backgrounds/1.pic", "level2.wav", 10, 10, 30, 40))
+        return;
+    
+    if(playLevel("images/backgrounds/1.pic", "level3.wav", 10, 10, 30, 20))
+        return;
 }
 
 
@@ -159,6 +146,8 @@ int main() {
 //    GameManager level1("images/backgrounds/1.pic", "level1.wav", 30, 10, 30, 50);
 //    level1.initialize();
 
+    
+    stats.readStats();
 
     std::array<std::function<void()>, 4> buttonActions {{
         playGame, drawInstructions, drawStats, drawCredits
@@ -229,6 +218,7 @@ int main() {
 
         Sleep(10);
     }
+    
 
     /*
     std::array<std::function<void()>, 5> screens {{
