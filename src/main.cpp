@@ -73,20 +73,29 @@ void credits() {
 }
 */
 
-void drawInstructions() {
+void drawBackground(std::string path) {
+    FEHImage backgroundImage;
 
+    backgroundImage.Open(path.c_str());
+    backgroundImage.Draw(0, 0);
+
+    backgroundImage.Close();
+}
+
+void drawInstructions() {
+    drawBackground("images/backgrounds/instructions.pic");
 }
 
 void drawStats() {
-
+    drawBackground("images/backgrounds/stats.pic");
 }
 
 void drawCredits() {
-
+    drawBackground("images/backgrounds/credits.pic");
 }
 
 void drawMainMenu() {
-
+    std::cout << "Drew main menu\n\n";
 }
 
 void playGame() {
@@ -96,7 +105,7 @@ void playGame() {
     while(!levelCompleted) {
         std::unique_ptr<GameManager> level1 = std::make_unique<GameManager>(
             "images/backgrounds/1.pic", "level1.wav", levelCompleted, returnToMenu,
-             5, 10, 30, 50
+             10, 10, 30, 50
         );
         level1->initialize();
 
@@ -109,7 +118,7 @@ void playGame() {
     while(!levelCompleted) {
         std::unique_ptr<GameManager> level2 = std::make_unique<GameManager>(
             "images/backgrounds/1.pic", "level2.wav", levelCompleted, returnToMenu,
-             5, 10, 30, 40
+             10, 10, 30, 40
         );
         level2->initialize();
 
@@ -122,7 +131,7 @@ void playGame() {
     while(!levelCompleted) {
         std::unique_ptr<GameManager> level3 = std::make_unique<GameManager>(
             "images/backgrounds/1.pic", "level3.wav", levelCompleted, returnToMenu,
-             5, 10, 30, 20
+             10, 10, 30, 20
         );
         level3->initialize();
 
@@ -137,6 +146,7 @@ int main() {
 //    GameManager level1("images/backgrounds/1.pic", "level1.wav", 30, 10, 30, 50);
 //    level1.initialize();
 
+
     std::array<std::function<void()>, 4> buttonActions {{
         playGame, drawInstructions, drawStats, drawCredits
     }};
@@ -145,19 +155,37 @@ int main() {
     bool isMainMenu = false;
 
     std::vector<Button> mainMenu {{
-        {{20, 20}, {10, 10}}
+        {{20, 20}, {10, 10}},
+        {{20, 50}, {10, 10}},
+        {{20, 80}, {10, 10}},
+        {{20, 110}, {10, 10}}
     }};
     Button backButton {{0, 0}, {10, 30}};
+    backButton.setActive(false);
 
     Point touchPos;
 
+    SoundManager waves;
+    waves.BasePath = "sounds";
+    waves.play("waves.wav", 1.0f, true);
+
+    drawMainMenu();
+
     while(1) {
+        LCD.DrawRectangle(20, 20, 10, 10);
+        LCD.DrawRectangle(20, 50, 10, 10);
+        LCD.DrawRectangle(0, 0, 10, 10);
+
         if(!LCD.Touch(&touchPos.x, &touchPos.y))
             continue;
 
         if(backButton.poll(touchPos)) {
             drawMainMenu();
             backButton.setActive(false);
+
+            for(Button& b : mainMenu) {
+                b.setActive(true);
+            }
             continue;
         }
 
@@ -165,27 +193,28 @@ int main() {
             if(!mainMenu[i].poll(touchPos))
                 continue;
 
-            for(Button& b : mainMenu) {
-                b.setActive(false);
-            }
-
-            if(i > 0)
+            if(i > 0) {
                 backButton.setActive(true);
-            
-            buttonActions[i]();
+                buttonActions[i]();
+
+                for(Button& b : mainMenu) {
+                    b.setActive(false);
+                }
+            }
+            else {
+                waves.stopSounds();
+                buttonActions[0]();
+
+                drawMainMenu();
+                waves.play("waves.wav", 1.0f, true);
+            }
+            break;
         }
         
 
 
-        Sleep(50);
+        Sleep(10);
     }
-
-
-    playGame();
-
-   while(1) {
-        Sleep(100);
-   }
 
     /*
     std::array<std::function<void()>, 5> screens {{

@@ -86,6 +86,12 @@ class GameManager {
 
     void levelCompleted() {
         soundManager.stopSounds();
+
+        for(auto& t : trash)
+            t->destroy();
+        trash.clear();
+        render.draw();
+
         Sleep(500);
         soundManager.play("savedTurtles.wav");
         Sleep(3000);
@@ -141,7 +147,7 @@ public:
             render.appendObject(sprite);
 
         soundManager.BasePath = "sounds";
-        soundManager.play(musicPath.c_str(), 1.0f, true);
+        soundManager.play(musicPath.c_str(), 0.75f, true);
 
         update();
     }

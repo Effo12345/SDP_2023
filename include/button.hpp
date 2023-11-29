@@ -5,7 +5,7 @@ class Button {
     Point pos;
     Point size;
 
-    bool isActive = false;
+    bool isActive = true;
 
 public:
     Button(Point position, Point dim)
