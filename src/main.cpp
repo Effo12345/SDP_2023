@@ -8,9 +8,10 @@
 #include "include/gamemanager.hpp"
 #include "include/trash.hpp"
 #include "include/button.hpp"
+#include "include/stats.hpp"
 #include <functional>
 
-
+Stats stats;
 
 /*
 FEHIcon::Icon btns[5];
@@ -88,6 +89,15 @@ void drawInstructions() {
 
 void drawStats() {
     drawBackground("images/backgrounds/stats.pic");
+
+    std::string trashCollected = std::to_string(stats.trashCollected);
+    std::string turtlesSaved = std::to_string(stats.turtlesSaved);
+    std::string levelsCompleted = std::to_string(stats.levelsCompleted);
+
+    LCD.SetFontColor(WHITE);
+    LCD.WriteAt(trashCollected.c_str(), 235, 85);
+    LCD.WriteAt(turtlesSaved.c_str(), 235, 105);
+    LCD.WriteAt(levelsCompleted.c_str(), 235, 125);
 }
 
 void drawCredits() {
@@ -108,6 +118,7 @@ void playGame() {
              10, 10, 30, 50
         );
         level1->initialize();
+        level1->updateStats(stats);
 
         if(returnToMenu)
             return;
@@ -121,6 +132,7 @@ void playGame() {
              10, 10, 30, 40
         );
         level2->initialize();
+        level2->updateStats(stats);
 
         if(returnToMenu)
             return;
@@ -134,6 +146,7 @@ void playGame() {
              10, 10, 30, 20
         );
         level3->initialize();
+        level3->updateStats(stats);
 
         if(returnToMenu)
             return;
@@ -174,6 +187,7 @@ int main() {
     while(1) {
         LCD.DrawRectangle(20, 20, 10, 10);
         LCD.DrawRectangle(20, 50, 10, 10);
+        LCD.DrawRectangle(20, 80, 10, 10);
         LCD.DrawRectangle(0, 0, 10, 10);
 
         if(!LCD.Touch(&touchPos.x, &touchPos.y))
