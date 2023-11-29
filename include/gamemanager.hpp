@@ -18,6 +18,9 @@ class GameManager {
 
     SoundManager soundManager;
     std::string musicPath;
+    
+    bool &completedLevel;
+    bool &exitToMenu;
 
     int numLives = 3;
     int turtleXPose = 135;
@@ -38,6 +41,9 @@ class GameManager {
     int minTrashIndex = 0;
     int maxTrashIndex = 3;
 
+    int trashCollectionTarget {};
+    int trashCollected {};
+
     int dT = 50;
 
     std::vector<std::shared_ptr<Trash>> trash;
@@ -55,6 +61,8 @@ class GameManager {
             if(boat->isColliding(trash[i]->getPos())) {
                 trash[i]->destroy();
                 trash.erase(trash.begin() + i);
+
+                trashCollected++;
 
                 soundManager.play("pickupTrash.wav", 0.25f);
                 continue;
@@ -76,9 +84,28 @@ class GameManager {
         soundManager.play("turtleDeath.wav", 1.0f);
     }
 
+    void levelCompleted() {
+        soundManager.stopSounds();
+
+        completedLevel = true;
+        exitToMenu = false;
+
+        // Animation things go here
+    }
+
+    void levelFailed() {
+        soundManager.stopSounds();
+
+        completedLevel = false;
+        
+
+        // If user clicks quit button, set exitToMenu
+    }
+
 public:
-    GameManager(std::string bkgFile, std::string musicFile, int targetTrash, int minTrashTime, int maxTrashTime, int timeStep = 50)
-    : musicPath{musicFile}, minSpawnCycles{minTrashTime}, maxSpawnCycles{maxTrashTime}, dT{timeStep} {
+    GameManager(std::string bkgFile, std::string musicFile, bool &success, bool &quit, int targetTrash, int minTrashTime, int maxTrashTime, int timeStep = 50)
+    : musicPath{musicFile}, completedLevel{success}, exitToMenu{quit}, 
+    trashCollectionTarget{targetTrash}, minSpawnCycles{minTrashTime}, maxSpawnCycles{maxTrashTime}, dT{timeStep} {
         bkg = std::make_shared<Sprite>(bkgFile);
         boat = std::make_shared<Boat>(std::vector<std::string>{
             "images/boat/up.pic",
@@ -148,6 +175,12 @@ public:
             }
 
             if(numLives < 1) {
+                levelFailed();
+                break;
+            }
+
+            if(trashCollected >= trashCollectionTarget) {
+                levelCompleted();
                 break;
             }
             
@@ -170,7 +203,5 @@ public:
 
             Sleep(dT);
         }
-
-        soundManager.stopSounds();
     }
 };

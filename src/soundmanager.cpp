@@ -14,6 +14,10 @@ SoundManager::SoundManager() {
         std::cout << hr;
 }
 
+SoundManager::~SoundManager() {
+    stopSounds();
+}
+
 int SoundManager::play(std::string path, float volume, bool ShouldLoop) {
     path = BasePath + "\\" + path;
     WAVEFORMATEXTENSIBLE wfx = { 0 };

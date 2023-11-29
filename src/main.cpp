@@ -9,6 +9,9 @@
 #include "include/trash.hpp"
 #include <functional>
 
+
+
+/*
 FEHIcon::Icon btns[5];
 char labels[][20] = {"Play", "Instructions", "Stats", "Credits"};
 
@@ -67,12 +70,57 @@ void credits() {
 
     drawBackBtn();
 }
+*/
+
+void playGame() {
+    bool levelCompleted = false;
+    bool returnToMenu = false;
+
+    while(!levelCompleted) {
+        std::unique_ptr<GameManager> level1 = std::make_unique<GameManager>(
+            "images/backgrounds/1.pic", "level1.wav", levelCompleted, returnToMenu,
+             5, 10, 30, 50
+        );
+        level1->initialize();
+
+        if(returnToMenu)
+            return;
+    }
+
+    levelCompleted = false;
+
+    while(!levelCompleted) {
+        std::unique_ptr<GameManager> level2 = std::make_unique<GameManager>(
+            "images/backgrounds/1.pic", "level2.wav", levelCompleted, returnToMenu,
+             5, 10, 30, 40
+        );
+        level2->initialize();
+
+        if(returnToMenu)
+            return;
+    }
+
+    levelCompleted = false;
+
+    while(!levelCompleted) {
+        std::unique_ptr<GameManager> level3 = std::make_unique<GameManager>(
+            "images/backgrounds/1.pic", "level3.wav", levelCompleted, returnToMenu,
+             5, 10, 30, 20
+        );
+        level3->initialize();
+
+        if(returnToMenu)
+            return;
+    }
+}
 
 
 int main() {
 
-   GameManager level1("images/backgrounds/1.pic", "level1.wav", 30, 10, 30, 50);
-   level1.initialize();
+//    GameManager level1("images/backgrounds/1.pic", "level1.wav", 30, 10, 30, 50);
+//    level1.initialize();
+
+    playGame();
 
    while(1) {
         Sleep(100);
