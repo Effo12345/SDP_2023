@@ -84,11 +84,11 @@ void drawBackground(std::string path) {
 }
 
 void drawInstructions() {
-    drawBackground("images/backgrounds/instructions.pic");
+    drawBackground("images/menus/instructions.pic");
 }
 
 void drawStats() {
-    drawBackground("images/backgrounds/stats.pic");
+    drawBackground("images/menus/stats.pic");
 
     std::string trashCollected = std::to_string(stats.trashCollected);
     std::string turtlesSaved = std::to_string(stats.turtlesSaved);
@@ -101,11 +101,11 @@ void drawStats() {
 }
 
 void drawCredits() {
-    drawBackground("images/backgrounds/credits.pic");
+    drawBackground("images/menus/credits.pic");
 }
 
 void drawMainMenu() {
-    std::cout << "Drew main menu\n\n";
+    drawBackground("images/menus/mainMenu.pic");
 }
 
 bool playLevel(std::string bkg, std::string music, int trashTarget, int minTrashTime, int maxTrashTime, int dT) {
