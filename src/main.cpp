@@ -7,6 +7,7 @@
 #include "include/boat.hpp"
 #include "include/gamemanager.hpp"
 #include "include/trash.hpp"
+#include "include/button.hpp"
 #include <functional>
 
 
@@ -72,6 +73,22 @@ void credits() {
 }
 */
 
+void drawInstructions() {
+
+}
+
+void drawStats() {
+
+}
+
+void drawCredits() {
+
+}
+
+void drawMainMenu() {
+
+}
+
 void playGame() {
     bool levelCompleted = false;
     bool returnToMenu = false;
@@ -119,6 +136,50 @@ int main() {
 
 //    GameManager level1("images/backgrounds/1.pic", "level1.wav", 30, 10, 30, 50);
 //    level1.initialize();
+
+    std::array<std::function<void()>, 4> buttonActions {{
+        playGame, drawInstructions, drawStats, drawCredits
+    }};
+
+
+    bool isMainMenu = false;
+
+    std::vector<Button> mainMenu {{
+        {{20, 20}, {10, 10}}
+    }};
+    Button backButton {{0, 0}, {10, 30}};
+
+    Point touchPos;
+
+    while(1) {
+        if(!LCD.Touch(&touchPos.x, &touchPos.y))
+            continue;
+
+        if(backButton.poll(touchPos)) {
+            drawMainMenu();
+            backButton.setActive(false);
+            continue;
+        }
+
+        for(int i = 0; i < mainMenu.size(); i++) {
+            if(!mainMenu[i].poll(touchPos))
+                continue;
+
+            for(Button& b : mainMenu) {
+                b.setActive(false);
+            }
+
+            if(i > 0)
+                backButton.setActive(true);
+            
+            buttonActions[i]();
+        }
+        
+
+
+        Sleep(50);
+    }
+
 
     playGame();
 

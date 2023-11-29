@@ -86,6 +86,9 @@ class GameManager {
 
     void levelCompleted() {
         soundManager.stopSounds();
+        Sleep(500);
+        soundManager.play("savedTurtles.wav");
+        Sleep(3000);
 
         completedLevel = true;
         exitToMenu = false;
