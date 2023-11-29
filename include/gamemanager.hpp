@@ -91,7 +91,14 @@ class GameManager {
         for(auto& t : trash)
             t->destroy();
         trash.clear();
-        render.draw();
+
+        
+        
+        int animTime = 3;
+        long int startTime = time(NULL);
+        while(time(NULL) - startTime < animTime) {
+
+        }
 
         Sleep(500);
         soundManager.play("savedTurtles.wav");

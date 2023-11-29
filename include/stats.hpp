@@ -2,9 +2,9 @@
 
 #include <fstream>
 
-struct Stats {
-private:
+class Stats {
     std::string statsFile = "stats/stats.dat";
+    
 public:
     int trashCollected {};
     int turtlesSaved {};
