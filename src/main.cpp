@@ -157,10 +157,10 @@ int main() {
     bool isMainMenu = false;
 
     std::vector<Button> mainMenu {{
-        {{20, 20}, {10, 10}},
-        {{20, 50}, {10, 10}},
-        {{20, 80}, {10, 10}},
-        {{20, 110}, {10, 10}}
+        {{115, 83}, {88, 23}},
+        {{60, 115}, {198, 23}},
+        {{115, 146}, {88, 23}},
+        {{99, 176}, {120, 23}}
     }};
     Button backButton {{0, 0}, {10, 30}};
     backButton.setActive(false);
@@ -174,11 +174,6 @@ int main() {
     drawMainMenu();
 
     while(1) {
-        LCD.DrawRectangle(20, 20, 10, 10);
-        LCD.DrawRectangle(20, 50, 10, 10);
-        LCD.DrawRectangle(20, 80, 10, 10);
-        LCD.DrawRectangle(0, 0, 10, 10);
-
         if(!LCD.Touch(&touchPos.x, &touchPos.y))
             continue;
 
