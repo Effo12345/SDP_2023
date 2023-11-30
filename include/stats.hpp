@@ -13,6 +13,9 @@ public:
     void writeStats() {
         std::ofstream write(statsFile);
 
+        if(!write.good())
+            return;
+
         write << trashCollected << std::endl
               << turtlesSaved << std::endl
               << levelsCompleted;

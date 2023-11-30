@@ -5,7 +5,7 @@
 
 class Turtle : public RenderObject, public GameObject {
 
-
+/*
 public:
     Turtle() {
         
@@ -15,3 +15,4 @@ public:
 
     }
 };
+*/

@@ -162,7 +162,7 @@ int main() {
         {{115, 146}, {88, 23}},
         {{99, 176}, {120, 23}}
     }};
-    Button backButton {{0, 0}, {10, 30}};
+    Button backButton {{3, 3}, {71, 23}};
     backButton.setActive(false);
 
     Point touchPos;
