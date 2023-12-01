@@ -133,10 +133,10 @@ void playGame() {
     if(playLevel("images/backgrounds/1.pic", "level1.wav", "images/backgrounds/1.pic", 10, 10, 30, 50))
         return;
 
-    if(playLevel("images/backgrounds/1.pic", "level2.wav", "images/background/2.pic", 10, 10, 30, 40))
+    if(playLevel("images/backgrounds/2.pic", "level2.wav", "images/background/2.pic", 10, 10, 30, 40))
         return;
     
-    if(playLevel("images/backgrounds/1.pic", "level3.wav", "images/background/3.pic", 10, 10, 30, 20))
+    if(playLevel("images/backgrounds/3.pic", "level3.wav", "images/background/3.pic", 10, 10, 30, 20))
         return;
 }
 
