@@ -8,6 +8,7 @@
 #include <algorithm>
 #include "soundmanager.hpp"
 #include "stats.hpp"
+#include "turtle.hpp"
 
 class GameManager {
     Point initialBoatPos = {160, 130};
@@ -15,7 +16,7 @@ class GameManager {
     std::shared_ptr<Sprite> bkg;
     std::shared_ptr<Boat> boat;
     std::shared_ptr<Sprite> target;
-    std::vector<std::shared_ptr<Sprite>> turtles;
+    std::vector<std::shared_ptr<Turtle>> turtles;
 
     SoundManager soundManager;
     std::string musicPath;
@@ -27,6 +28,7 @@ class GameManager {
     int turtleXPose = 135;
     int turtleYPose = 185;
     int turtleSpacing = 20;
+    int turtleTargetY = 30;
 
     Point targetSize {16, 16};
 
@@ -41,6 +43,9 @@ class GameManager {
 
     int minTrashIndex = 0;
     int maxTrashIndex = 3;
+
+    int minTurtleSpeed = 1;
+    int maxTurtleSpeed = 2;
 
     int trashCollectionTarget {};
     int trashCollected {};
@@ -87,23 +92,45 @@ class GameManager {
 
     void levelCompleted() {
         soundManager.stopSounds();
+        Sleep(500);
+        soundManager.play("savedTurtles.wav");
 
+        // Remove all on-screen objects but turtles and background
         for(auto& t : trash)
             t->destroy();
         trash.clear();
+        boat->destroy();
+        target->destroy();
 
-        
-        /*
-        int animTime = 3;
-        long int startTime = time(NULL);
-        while(time(NULL) - startTime < animTime) {
+        for(auto& t : turtles)
+            t->setTarget(Point(t->getPos().x, turtleTargetY));
 
+        float animTime = 3.0f;  // seconds
+        float startTime = TimeNow();
+        while(TimeNow() - startTime < animTime) {
+            for(auto& t : turtles)
+                t->moveTowards();
+
+            render.draw();
+            Sleep(dT);
         }
-        */
 
-        Sleep(500);
-        soundManager.play("savedTurtles.wav");
-        Sleep(3000);
+        render.doUpdateLcd(false);
+
+        for(int i = 0; i < 241; i += 6) {
+            for(auto& t : turtles)
+                t->moveTowards();
+
+            render.draw();
+
+            LCD.SetFontColor(BLACK);
+            //LCD.DrawRectangle(0, 0, 320, i);
+            LCD.FillRectangle(0, 0, 320, i);
+            LCD.Update();
+
+            Sleep(1);
+        }
+        Sleep(100);
 
         completedLevel = true;
         exitToMenu = false;
@@ -118,6 +145,18 @@ class GameManager {
         
 
         // If user clicks quit button, set exitToMenu
+    }
+
+    void fillTurtleArray() {
+        std::random_device r;
+        std::default_random_engine eng(r());
+        std::uniform_int_distribution<int> turtleSpeed(minTurtleSpeed, maxTurtleSpeed);
+
+        for(int i = 0; i < numLives; i++) {
+            turtles.push_back(std::make_shared<Turtle>
+                (Point(turtleXPose + turtleSpacing * i, turtleYPose), Point(16, 16), turtleSpeed(eng))
+            );
+        }
     }
 
     void update() {
@@ -183,25 +222,24 @@ class GameManager {
     }
 
 public:
-    GameManager(std::string bkgFile, std::string musicFile, bool &success, bool &quit, int targetTrash, int minTrashTime, int maxTrashTime, int timeStep = 50)
+    GameManager(std::string bkgFile, std::string musicFile, std::string gameOverFile,
+        bool &success, bool &quit, 
+        int targetTrash, int minTrashTime, int maxTrashTime, int timeStep = 50)
     : musicPath{musicFile}, completedLevel{success}, exitToMenu{quit}, 
-    trashCollectionTarget{targetTrash}, minSpawnCycles{minTrashTime}, maxSpawnCycles{maxTrashTime}, dT{timeStep} {
+      trashCollectionTarget{targetTrash}, minSpawnCycles{minTrashTime}, maxSpawnCycles{maxTrashTime}, 
+      dT{timeStep} {
         bkg = std::make_shared<Sprite>(bkgFile);
         boat = std::make_shared<Boat>(std::vector<std::string>{
             "images/boat/up.pic",
             "images/boat/right.pic",
             "images/boat/down.pic",
             "images/boat/left.pic"
-        }, initialBoatPos, Point(32, 35), Point(20, 25), 4);
+        }, initialBoatPos, Point(32, 35), 4);
 
         target = std::make_shared<Sprite>("images/target.pic");
         target->setActive(false);
 
-        for(int i = 0; i < numLives; i++) {
-            turtles.push_back(
-                std::make_shared<Sprite>("images/turtle.pic", Point(turtleXPose + turtleSpacing * i, turtleYPose))
-            );
-        }
+        fillTurtleArray();
     }
 
     ~GameManager() {
@@ -214,11 +252,15 @@ public:
         render.appendObject(target);
         render.appendObject(boat);
 
-        for(auto& sprite : turtles)
-            render.appendObject(sprite);
+        for(auto& turtle : turtles)
+            render.appendObject(turtle);
+
+        Sleep(100);
 
         soundManager.BasePath = "sounds";
         soundManager.play(musicPath.c_str(), 0.75f, true);
+
+        LCD.ClearBuffer();
 
         update();
     }

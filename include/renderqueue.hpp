@@ -13,6 +13,7 @@
 
 class RenderQueue {
     std::vector<std::shared_ptr<RenderObject>> objects;
+    bool updateLcd = true;
 
     void removeDestroyed() {
         for(int i = 0; i < objects.size();) {
@@ -52,7 +53,8 @@ class RenderQueue {
             p->draw();
         }
 
-        LCD.Update();
+        if(updateLcd)
+            LCD.Update();
     }
 
     void appendObject(std::shared_ptr<RenderObject> obj) {
@@ -61,6 +63,10 @@ class RenderQueue {
 
     void removeObject(int index) {
         objects.erase(objects.begin() + index);
+    }
+
+    void doUpdateLcd(bool doUpdate = true) {
+        updateLcd = doUpdate;
     }
 
     std::shared_ptr<RenderObject>& operator[](int index) {

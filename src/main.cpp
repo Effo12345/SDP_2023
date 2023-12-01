@@ -108,13 +108,13 @@ void drawMainMenu() {
     drawBackground("images/menus/mainMenu.pic");
 }
 
-bool playLevel(std::string bkg, std::string music, int trashTarget, int minTrashTime, int maxTrashTime, int dT) {
+bool playLevel(std::string bkg, std::string music, std::string gameOver, int trashTarget, int minTrashTime, int maxTrashTime, int dT) {
     bool levelCompleted = false;
     bool returnToMenu = false;
 
     while(!levelCompleted) {
         std::unique_ptr<GameManager> level = std::make_unique<GameManager>(
-            bkg, music, levelCompleted, returnToMenu,
+            bkg, music, gameOver, levelCompleted, returnToMenu,
              trashTarget, minTrashTime, maxTrashTime, dT
         );
         level->initialize();
@@ -130,13 +130,13 @@ bool playLevel(std::string bkg, std::string music, int trashTarget, int minTrash
 }
 
 void playGame() {
-    if(playLevel("images/backgrounds/1.pic", "level1.wav", 10, 10, 30, 50))
+    if(playLevel("images/backgrounds/1.pic", "level1.wav", "images/backgrounds/1.pic", 10, 10, 30, 50))
         return;
 
-    if(playLevel("images/backgrounds/1.pic", "level2.wav", 10, 10, 30, 40))
+    if(playLevel("images/backgrounds/1.pic", "level2.wav", "images/background/2.pic", 10, 10, 30, 40))
         return;
     
-    if(playLevel("images/backgrounds/1.pic", "level3.wav", 10, 10, 30, 20))
+    if(playLevel("images/backgrounds/1.pic", "level3.wav", "images/background/3.pic", 10, 10, 30, 20))
         return;
 }
 
@@ -211,7 +211,7 @@ int main() {
         
 
 
-        Sleep(10);
+        Sleep(50);
     }
     
 

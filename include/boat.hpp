@@ -9,7 +9,6 @@ class Boat : public RenderObject, public GameObject {
     std::vector<std::shared_ptr<Sprite>> sprites;
     int currentSprite {};
     Point spriteSize;
-    Point collisionBox;
 
     bool isVertical = true;
     bool wasVertical = true;
@@ -54,8 +53,8 @@ class Boat : public RenderObject, public GameObject {
 
 
 public:
-    Boat(std::vector<std::string> spriteFiles, Point startingPos, Point spriteDim, Point collider, float maxVel = 1) 
-    : GameObject(startingPos, maxVel), spriteSize(spriteDim), collisionBox(collider) {
+    Boat(std::vector<std::string> spriteFiles, Point startingPos, Point spriteDim, float maxVel = 1) 
+    : GameObject(startingPos, maxVel), spriteSize(spriteDim) {
         for(auto& str : spriteFiles) {
             sprites.push_back(
                 std::make_shared<Sprite>(str, startingPos - (spriteDim / 2))
