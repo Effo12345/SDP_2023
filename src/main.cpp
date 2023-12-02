@@ -1,15 +1,6 @@
-#include "include/main.hpp"
-#include "include/point.hpp"
-#include "FEHUtility.h"
-#include "FEHLCD.h"
-#include "include/gameobject.hpp"
-#include "include/renderqueue.hpp"
-#include "include/boat.hpp"
 #include "include/gamemanager.hpp"
-#include "include/trash.hpp"
-#include "include/button.hpp"
-#include "include/stats.hpp"
 #include <functional>
+#include <array>
 
 Stats stats;
 

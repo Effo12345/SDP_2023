@@ -8,24 +8,11 @@ class Button {
     bool isActive = true;
 
 public:
-    Button(Point position, Point dim)
-    : pos{position}, size{dim} {}
+    Button(Point position, Point dim);
 
-    bool poll(Point touchPos) {
-        if(!isActive)
-            return false;
+    bool poll(Point touchPos);
 
-        if(touchPos > pos && touchPos < pos + size)
-            return true;
-        else
-            return false;
-    }
+    void setActive(bool active = true);
 
-    void setActive(bool active = true) {
-        isActive = active;
-    }
-
-    bool getActive() const {
-        return isActive;
-    }
+    bool getActive() const;
 };
