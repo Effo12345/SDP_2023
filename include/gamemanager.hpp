@@ -9,6 +9,7 @@
 #include "soundmanager.hpp"
 #include "stats.hpp"
 #include "turtle.hpp"
+#include "button.hpp"
 
 class GameManager {
     Point initialBoatPos = {160, 130};
@@ -17,6 +18,7 @@ class GameManager {
     std::shared_ptr<Boat> boat;
     std::shared_ptr<Sprite> target;
     std::vector<std::shared_ptr<Turtle>> turtles;
+    std::shared_ptr<Sprite> failScreen;
 
     SoundManager soundManager;
     std::string musicPath;
@@ -28,7 +30,7 @@ class GameManager {
     int turtleXPose = 135;
     int turtleYPose = 185;
     int turtleSpacing = 20;
-    int turtleTargetY = 30;
+    int turtleTargetY = 10;
 
     Point targetSize {16, 16};
 
@@ -45,7 +47,7 @@ class GameManager {
     int maxTrashIndex = 3;
 
     int minTurtleSpeed = 1;
-    int maxTurtleSpeed = 2;
+    int maxTurtleSpeed = 3;
 
     int trashCollectionTarget {};
     int trashCollected {};
@@ -124,7 +126,6 @@ class GameManager {
             render.draw();
 
             LCD.SetFontColor(BLACK);
-            //LCD.DrawRectangle(0, 0, 320, i);
             LCD.FillRectangle(0, 0, 320, i);
             LCD.Update();
 
@@ -134,17 +135,39 @@ class GameManager {
 
         completedLevel = true;
         exitToMenu = false;
-
-        // Animation things go here
     }
 
     void levelFailed() {
         soundManager.stopSounds();
+        Sleep(500);
+        soundManager.play("killedTurtles.wav");
+
+        render.appendObject(failScreen);
+        render.draw();
+
+        Button replay {Point{116, 94}, Point{87, 23}};
+        Button exit {Point{83, 133}, Point{152, 23}};
+        Point touchPos;
+
+        bool validInput = false;
+        while(!validInput) {
+            if(!LCD.Touch(&touchPos.x, &touchPos.y))
+                continue;
+
+            if(replay.poll(touchPos)) {
+                exitToMenu = false;
+                validInput = true;
+            }
+            else if(exit.poll(touchPos)) {
+                exitToMenu = true;
+                validInput = true;
+            }
+
+            Sleep(dT);
+        }
 
         completedLevel = false;
         
-
-        // If user clicks quit button, set exitToMenu
     }
 
     void fillTurtleArray() {
@@ -238,6 +261,8 @@ public:
 
         target = std::make_shared<Sprite>("images/target.pic");
         target->setActive(false);
+
+        failScreen = std::make_shared<Sprite>(gameOverFile, Point{0, 0});
 
         fillTurtleArray();
     }

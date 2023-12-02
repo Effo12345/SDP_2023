@@ -130,7 +130,7 @@ bool playLevel(std::string bkg, std::string music, std::string gameOver, int tra
 }
 
 void playGame() {
-    if(playLevel("images/backgrounds/1.pic", "level1.wav", "images/backgrounds/1.pic", 10, 10, 30, 50))
+    if(playLevel("images/backgrounds/1.pic", "level1.wav", "images/menus/gameOver_1.pic", 10, 10, 30, 50))
         return;
 
     if(playLevel("images/backgrounds/2.pic", "level2.wav", "images/background/2.pic", 10, 10, 30, 40))
