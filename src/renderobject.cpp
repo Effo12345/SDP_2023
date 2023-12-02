@@ -6,11 +6,6 @@ RenderObject::~RenderObject() {
     // but necessary for derived classes
 }
 
-// Returns the object's position
-// Point RenderObject::getPos() const {
-//     return renderPos;
-// }
-
 // Sets objects position. Overloaded
 void RenderObject::setPos(int x, int y) {
     renderPos = {x, y};

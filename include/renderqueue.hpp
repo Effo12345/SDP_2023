@@ -15,59 +15,23 @@ class RenderQueue {
     std::vector<std::shared_ptr<RenderObject>> objects;
     bool updateLcd = true;
 
-    void removeDestroyed() {
-        for(int i = 0; i < objects.size();) {
-            if(objects[i]->isDestroyed()) {
-                removeObject(i);
-                continue;
-            }
+    void removeDestroyed();
 
-            // Only increment the iterator if the current object wasn't destroyed
-            // since erasing an object from the vector pushes all the indeces up
-            i++;
-        }
-    }
+public:
 
-    public:
-
-    RenderQueue(std::vector<std::shared_ptr<RenderObject>> baseObjects)
-    : objects(baseObjects) {}
+    RenderQueue(std::vector<std::shared_ptr<RenderObject>> baseObjects);
 
     RenderQueue() {}
     
-    ~RenderQueue() {
-        for(auto p : objects) {
-            // Clear memory
-            p.reset();
-        }
-    }
+    ~RenderQueue();
 
-    void draw() {
-        removeDestroyed();
+    void draw();
 
-        for(auto p : objects) {
-            // If the object is inactive, don't render it to the screen
-            if(!p->isActive())
-                continue;
+    void appendObject(std::shared_ptr<RenderObject> obj);
 
-            p->draw();
-        }
+    void removeObject(int index);
 
-        if(updateLcd)
-            LCD.Update();
-    }
-
-    void appendObject(std::shared_ptr<RenderObject> obj) {
-        objects.push_back(obj);
-    }
-
-    void removeObject(int index) {
-        objects.erase(objects.begin() + index);
-    }
-
-    void doUpdateLcd(bool doUpdate = true) {
-        updateLcd = doUpdate;
-    }
+    void doUpdateLcd(bool doUpdate = true);
 
     std::shared_ptr<RenderObject>& operator[](int index) {
         return objects[index];

@@ -10,24 +10,7 @@ public:
     int turtlesSaved {};
     int levelsCompleted {};
 
-    void writeStats() {
-        std::ofstream write(statsFile);
+    void writeStats();
 
-        if(!write.good())
-            return;
-
-        write << trashCollected << std::endl
-              << turtlesSaved << std::endl
-              << levelsCompleted;
-        
-        write.close();
-    }
-
-    void readStats() {
-        std::ifstream read(statsFile);
-
-        read >> trashCollected
-             >> turtlesSaved
-             >> levelsCompleted;
-    }
+    void readStats();
 };

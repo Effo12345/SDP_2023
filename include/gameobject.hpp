@@ -15,19 +15,7 @@ class GameObject {
         return (T(0) < val) - (val < T(0));
     }
 
-    Point computeNewPos(Point& currPos, Point& delta, Point& deltaSgn, int speed) {
-        deltaSgn = {sgn(delta.x), sgn(delta.y)};
-
-        if(delta == 0) {
-            reachedTarget = true;
-            return currPos;
-        }
-
-        //https://gamedev.stackexchange.com/questions/48119/how-do-i-calculate-how-an-object-will-move-from-one-point-to-another
-        delta.normalize();
-        
-        return (delta * speed) + currPos;
-    }
+    Point computeNewPos(Point& currPos, Point& delta, Point& deltaSgn, int speed);
 protected:
     float targetAngle {};
     Point gamePos;
@@ -35,42 +23,13 @@ protected:
 
 
 public:
-    GameObject(Point posInit, float maxVelocity = 1)
-    : speed(maxVelocity), gamePos(posInit),
-      targetPos(gamePos) {}
+    GameObject(Point posInit, float maxVelocity = 1);
 
-    void moveTowards () {
-        Point currDelta = targetPos - gamePos;
-        Point currDeltaSgn; // Modified by reference in computeNewPos
-        Point nextPos = computeNewPos(gamePos, currDelta, currDeltaSgn, speed);
+    void moveTowards ();
 
-        Point nextDelta = targetPos - nextPos;
-        Point nextDeltaSgn;
-        Point futurePos = computeNewPos(nextPos, nextDelta, nextDeltaSgn, speed);
+    void setTarget(Point touchPos);
 
-        
-        if(!(currDeltaSgn == nextDeltaSgn)) {
-            gamePos = targetPos;
-            return;
-        }
-        
-        gamePos = nextPos;
-    }
+    Point getPos();
 
-    void setTarget(Point touchPos) { 
-        targetPos = touchPos;
-
-        Point delta = targetPos - gamePos;
-        prevDeltaSgn = {sgn(delta.x), sgn(delta.y)};
-
-        reachedTarget = false;
-    }
-
-    Point getPos() {
-        return gamePos;
-    }
-
-    bool hasReachedTarget() {
-        return reachedTarget;
-    }
+    bool hasReachedTarget();
 };
