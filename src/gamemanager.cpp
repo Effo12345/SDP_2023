@@ -49,19 +49,21 @@ void GameManager::levelCompleted() {
     for(auto& t : turtles)
         t->setTarget(Point(t->getPos().x, turtleTargetY));
 
-    float animTime = 2.7f;  // seconds
+    int exitAnimDt = 2;
+
+    float animTime = 1.0f;  // seconds
     float startTime = TimeNow();
     while(TimeNow() - startTime < animTime) {
         for(auto& t : turtles)
             t->moveTowards();
 
         render.draw();
-        Sleep(dT);
+        Sleep(exitAnimDt);
     }
 
     render.doUpdateLcd(false);
 
-    for(int i = 0; i < 241; i += 6) {
+    for(int i = 0; i < 241; i += 12) {
         for(auto& t : turtles)
             t->moveTowards();
 
@@ -71,9 +73,9 @@ void GameManager::levelCompleted() {
         LCD.FillRectangle(0, 0, 320, i);
         LCD.Update();
 
-        Sleep(1);
+        Sleep(exitAnimDt);
     }
-    Sleep(100);
+    Sleep(1250);
 
     completedLevel = true;
     exitToMenu = false;

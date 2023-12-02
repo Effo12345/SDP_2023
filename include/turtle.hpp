@@ -5,12 +5,13 @@
 #include <array>
 
 class Turtle : public RenderObject, public GameObject {
-const static int numTurtleSprites = 6;
+const static int numTurtleSprites = 4;
 std::string turtleFilepath = "images/turtle/";
 Point spriteSize;
 int animIter {};
 
-std::array<std::shared_ptr<Sprite>, numTurtleSprites> sprites;
+std::shared_ptr<Sprite> staticSprite;
+std::array<std::shared_ptr<Sprite>, numTurtleSprites> animSprites;
 
 public:
     Turtle(Point startingPos, Point spriteDim, int maxVel);

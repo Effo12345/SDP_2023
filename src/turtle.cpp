@@ -2,9 +2,11 @@
 
 Turtle::Turtle(Point startingPos, Point spriteDim, int maxVel) 
 : GameObject(startingPos, maxVel), spriteSize{spriteDim} {
+    staticSprite = std::make_shared<Sprite>(turtleFilepath + "static.pic", startingPos - (spriteDim / 2));
+
     for(int i = 0; i < numTurtleSprites; i++) {
         std::string file = turtleFilepath + std::to_string(i + 1) + ".pic";
-        sprites[i] = std::make_shared<Sprite>(file, startingPos - (spriteDim / 2));
+        animSprites[i] = std::make_shared<Sprite>(file, startingPos - (spriteDim / 2));
     }
 }
 
@@ -12,8 +14,8 @@ void Turtle::draw() {
     Point renderPos = gamePos - (spriteSize / 2);
 
     if(hasReachedTarget()) {
-        sprites[0]->setPos(renderPos);
-        sprites[0]->draw();
+        staticSprite->setPos(renderPos);
+        staticSprite->draw();
         return;
     }
 
@@ -24,6 +26,6 @@ void Turtle::draw() {
         animIter = 0;
     }
 
-    sprites[animIter]->setPos(renderPos);
-    sprites[animIter]->draw();
+    animSprites[animIter]->setPos(renderPos);
+    animSprites[animIter]->draw();
 }
