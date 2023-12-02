@@ -107,7 +107,7 @@ class GameManager {
         for(auto& t : turtles)
             t->setTarget(Point(t->getPos().x, turtleTargetY));
 
-        float animTime = 3.0f;  // seconds
+        float animTime = 2.7f;  // seconds
         float startTime = TimeNow();
         while(TimeNow() - startTime < animTime) {
             for(auto& t : turtles)
