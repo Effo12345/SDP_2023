@@ -3,36 +3,34 @@
 #include "point.hpp"
 #include <iostream>
 
-/*
+/**
  * @author Ethan Rosati
  *
- * Base class that holds properties all on-screen objects must have
- */
+ * Base class that holds properties all on-screen objects must have; designed to
+ * be inherited from by more specific classes. Exposes virtual functions that
+ * derived classes overwrite to be accessed polymorphically
+ **/
 class RenderObject {
-    private:
+private:
+    // Track the current state of the object
     bool active = true;
     bool destroyed = false;
 
-    protected:
+protected:
+    // Provide access to derived classes without exposing to the user
     Point renderPos;
 
-    public:
+public:
     virtual ~RenderObject();
 
-    // Returns the object's position
-    //Point getPos() const;
-    // Sets objects position. Overloaded
     void setPos(int x, int y);
-    // Another way of set the object's position. Overloaded
     void setPos(Point p);
 
-    // Mark the object as having been destroyed
     void destroy();
     bool isDestroyed() const;
 
     void setActive(bool status = true);
     bool isActive() const;
 
-    // Let derived classes override this for draw calls in the render queue
     virtual void draw();
 };
