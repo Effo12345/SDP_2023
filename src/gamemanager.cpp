@@ -140,7 +140,7 @@ void GameManager::levelCompleted() {
         t->setTarget(Point(t->getPos().x, turtleTargetY));
 
     // Have a consistent timestep between both parts of the end level animation
-    int exitAnimDt = 2;
+    int exitAnimDt = 3;
 
     // Loop through turtle movement for a certain length of time
     float animTime = 1.0f;  // seconds
@@ -179,7 +179,7 @@ void GameManager::levelCompleted() {
     }
 
     // Sleep to let the victory jingle finish
-    Sleep(1250);
+    Sleep(1000);
 
     // Let main function know level was completed successfully
     completedLevel = true;
