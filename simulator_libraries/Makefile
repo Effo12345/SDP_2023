@@ -33,7 +33,7 @@ STUDENT_CPP_FILES := $(filter-out ../simulator_libraries/%, $(call recursiveWild
 STUDENT_COMPILED_OBJECT_FILES := $(notdir $(patsubst %.cpp, %.o,$(STUDENT_CPP_FILES)))
 
 all: libraries studentFiles
-	$(CC) $(CPPFLAGS) $(OBJS) $(STUDENT_COMPILED_OBJECT_FILES) -o ../$(EXEC) -lXAudio2_8 -lOle32 -lwinmm $(LDFLAGS) $(IGNORED_WARNINGS)
+	$(CC) $(CPPFLAGS) $(OBJS) $(STUDENT_COMPILED_OBJECT_FILES) -o ../$(EXEC) $(LDFLAGS) $(IGNORED_WARNINGS)
 
 studentFiles: $(STUDENT_CPP_FILES)
 	$(CC) $(IGNORED_WARNINGS) $(INC_DIRS) -c $^ 

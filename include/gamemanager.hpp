@@ -7,7 +7,6 @@
 #include "trash.hpp"
 #include <random>
 #include <algorithm>
-#include "soundmanager.hpp"
 #include "stats.hpp"
 #include "turtle.hpp"
 #include "button.hpp"
@@ -33,7 +32,6 @@ class GameManager {
     // Renderer
     RenderQueue render;
 
-    SoundManager soundManager;
     std::string musicPath;
     
     // References bound in constructor. Modify variables in the main function

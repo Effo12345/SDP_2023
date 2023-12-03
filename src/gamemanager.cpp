@@ -74,8 +74,6 @@ void GameManager::checkTrashCollision() {
 
             // Player collected a piece of trash
             trashCollected++;
-
-            soundManager.play("pickupTrash.wav", 0.25f);
             continue;
         }
 
@@ -111,8 +109,6 @@ void GameManager::killTurtle() {
     // Remove turtle from render queue an from array
     turtles[turtles.size() - 1]->destroy();
     turtles.pop_back();
-
-    soundManager.play("turtleDeath.wav", 1.0f);
 }
 
 /**
@@ -123,10 +119,7 @@ void GameManager::killTurtle() {
  * proceed to the next level.
  **/
 void GameManager::levelCompleted() {
-    // Stop current music and replace with success jingle
-    soundManager.stopSounds();
     Sleep(500);
-    soundManager.play("savedTurtles.wav");
 
     // Remove all on-screen objects but turtles and background
     for(auto& t : trash)
@@ -140,7 +133,7 @@ void GameManager::levelCompleted() {
         t->setTarget(Point(t->getPos().x, turtleTargetY));
 
     // Have a consistent timestep between both parts of the end level animation
-    int exitAnimDt = 2;
+    int exitAnimDt = 3;
 
     // Loop through turtle movement for a certain length of time
     float animTime = 1.0f;  // seconds
@@ -194,10 +187,7 @@ void GameManager::levelCompleted() {
  * make it interactable
  **/
 void GameManager::levelFailed() {
-    // Stop music and replace it with failure sound
-    soundManager.stopSounds();
     Sleep(500);
-    soundManager.play("killedTurtles.wav");
 
     // Add game over screen to the top of the draw order, then draw new fram
     render.appendObject(failScreen);
@@ -365,12 +355,8 @@ void GameManager::initialize() {
 
     // Sleep then clear touch buffer to reject touch inputs bleeding over from
     // the main menu
-    Sleep(100);
+    Sleep(300);
     LCD.ClearBuffer();
-
-    // Set soundManager's target folder then start playing level music
-    soundManager.BasePath = "sounds";
-    soundManager.play(musicPath.c_str(), 0.75f, true);
 
     // Start level
     update();

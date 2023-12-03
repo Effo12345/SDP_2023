@@ -169,12 +169,6 @@ int main() {
     // Hold the most recent position the player touch on screen
     Point touchPos;
 
-    // Create wave crashing sound effect that loops while the player is on the 
-    // main menu
-    SoundManager waves;
-    waves.BasePath = "sounds";
-    waves.play("waves.wav", 1.0f, true);
-
     // Draw main menu before loop so something appears on startup
     drawMainMenu();
 
@@ -219,7 +213,6 @@ int main() {
             else {
                 // If the button pressed was the play button, stop menu noises
                 // then start playing the game
-                waves.stopSounds();
                 buttonActions[0]();
 
                 // Control returns here either when the player beats the game or 
@@ -228,7 +221,6 @@ int main() {
                 // Redraw the main menu onto the screen, then start playing 
                 // menu sound again
                 drawMainMenu();
-                waves.play("waves.wav", 1.0f, true);
             }
 
             // The correct button input was found, so stop looking. Also 
