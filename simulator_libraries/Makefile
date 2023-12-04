@@ -3,7 +3,7 @@ CPPFLAGS = -MMD -MP -Os -DOBJC_OLD_DISPATCH_PROTOTYPES -g
 IGNORED_WARNINGS = -w
 INC_DIRS = -I. -I..
 #if new libraries are added, add them here
-OBJS = FEHLCD.o FEHRandom.o FEHSD.o tigr.o FEHUtility.o FEHImages.o
+OBJS = FEHLCD.o FEHRandom.o tigr.o FEHUtility.o FEHImages.o
 
 ifeq ($(OS),Windows_NT)
 	LDFLAGS = -lopengl32 -lgdi32
@@ -49,8 +49,6 @@ FEHUtility.o: FEHUtility.cpp FEHUtility.h
 FEHRandom.o: FEHRandom.cpp FEHRandom.h
 	$(CC) $(IGNORED_WARNINGS) $(INC_DIRS) -c FEHRandom.cpp
 
-FEHSD.o: FEHSD.cpp FEHSD.h
-	$(CC) $(IGNORED_WARNINGS) $(INC_DIRS) -c FEHSD.cpp
 
 FEHImages.o: FEHImages.cpp FEHImages.h
 	$(CC) $(IGNORED_WARNINGS) $(INC_DIRS) -c FEHImages.cpp

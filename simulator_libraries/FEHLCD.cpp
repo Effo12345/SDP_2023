@@ -1,5 +1,4 @@
 #include "FEHLCD.h"
-#include "FEHSD.h"
 #include "FEHUtility.h"
 #include "FEHRandom.h"
 #include "tigr.h"
@@ -223,7 +222,7 @@ void FEHLCD::Update()
     tigrUpdate(screen);
 
     if (tigrClosed(screen)) {
-        SD.FCloseAll();
+        //SD.FCloseAll();
         exit(0);
     }
 }
