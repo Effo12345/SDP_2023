@@ -110,6 +110,13 @@ bool playLevel(std::string bkg, std::string music, std::string gameOver,
         // know
         if(returnToMenu)
             return true;
+
+        // Auto-scaling difficulty. If a player loses, decrease the amount of 
+        // trash they need to collect to beat the level and reduce the trash
+        // spawn rate
+        trashTarget -= 3;
+        minTrashTime += 2;
+        maxTrashTime += 2;
         
         // If the player beat the level, GameManager sets levelCompleted to true
         // by reference, so the loop exits
@@ -129,13 +136,13 @@ bool playLevel(std::string bkg, std::string music, std::string gameOver,
 void playGame() {
     // If the player wants to return to the main menu, exit the function early
     // and return control to the caller
-    if(playLevel("images/backgrounds/1.pic", "level1.wav", "images/menus/gameOver_1.pic", 10, 10, 30, 50))
+    if(playLevel("images/backgrounds/1.pic", "level1.wav", "images/menus/gameOver_1.pic", 15, 25, 40, 50))
         return;
 
-    if(playLevel("images/backgrounds/2.pic", "level2.wav", "images/menus/gameOver_2.pic", 10, 10, 30, 40))
+    if(playLevel("images/backgrounds/2.pic", "level2.wav", "images/menus/gameOver_2.pic", 25, 10, 30, 40))
         return;
     
-    if(playLevel("images/backgrounds/3.pic", "level3.wav", "images/menus/gameOver_3.pic", 10, 10, 30, 20))
+    if(playLevel("images/backgrounds/3.pic", "level3.wav", "images/menus/gameOver_3.pic", 40, 10, 20, 20))
         return;
 }
 
