@@ -14,7 +14,7 @@
  * @param minTrashTime Minimum number of cycles between each trash spawn
  * @param maxTrashTime Maximum number of cycles between each trash spawn
  * @param timeStep Length of time between each frame (ms)
- */
+ **/
 GameManager::GameManager(std::string bkgFile, std::string musicFile, std::string gameOverFile, // ^
     bool &success, bool &quit,                                                                 // | Params
     int targetTrash, int minTrashTime, int maxTrashTime, int timeStep)                         // v
